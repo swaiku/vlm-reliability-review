@@ -1,0 +1,11 @@
+# Bibliography in Hayagriva format. Example entry (delete once real ones are added):
+#
+# example2024:
+#   type: Article
+#   title: Example title
+#   author: ["Doe, Jane"]
+#   date: 2024
+#   parent:
+#     type: Proceedings
+#     title: Example Conference
+#   url: https://arxiv.org/abs/0000.00000

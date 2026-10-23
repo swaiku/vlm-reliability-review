@@ -1,0 +1,22 @@
+[project]
+name = "vlm-reliability-experiments"
+version = "0.1.0"
+description = "Bounding-box localization: Qwen VLM vs YOLO-World vs Grounding DINO"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pyyaml",
+    "pillow",
+    "matplotlib",
+    "torch",
+    "transformers",
+    "ultralytics",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter",
+    "ruff",
+]

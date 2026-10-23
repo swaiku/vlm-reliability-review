@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Data and models (too large for git)
+experiments/data/*
+!experiments/data/.gitkeep
+*.pt
+*.pth
+*.safetensors
+*.onnx
+
+# Raw predictions can be regenerated
+experiments/results/predictions/*
+!experiments/results/predictions/.gitkeep
+
+# Compiled paper
+paper/main.pdf
+
+# OS / editor
+.DS_Store
+.vscode/
+main.pdf
