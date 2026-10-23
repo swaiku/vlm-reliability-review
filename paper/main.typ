@@ -96,7 +96,7 @@ To what extent are VLMs reliable for visual information extraction (classificati
 // [budget] 2.25 p (~1500 words text + Tab. 1 ~0.5 p). Review = core of the paper.
 // Sub-budgets below sum to 1.75 p text + 0.5 p table.
 
-#todo[2-3 sentences: scope, how sources were selected (narrative review, photos only, 2023-2026)]
+We conducted a narrative review of 40 sources published between 2023 and 2026 on the reliability of VLMs for classification, counting, and localization in still images. Sources were gathered through web searches (arXiv, conference proceedings, the ACL Anthology) that started from known benchmarks and were extended by one targeted query per theme; video work is excluded. We did not follow a systematic protocol, so coverage is not exhaustive. #todo[update the count and add a sentence on the complementary search once done]
 
 == Object Hallucination
 // [budget] 0.35 p
@@ -126,23 +126,36 @@ To what extent are VLMs reliable for visual information extraction (classificati
 
 == Task
 // [budget] 0.15 p
-We evaluate bounding-box localization of objects specified by a text prompt, on real-world images. #todo[precise task definition: input (image, category name), output (set of boxes); counting derived as number of boxes; negative prompts (category absent from the image) to measure false positives]
+We evaluate bounding-box localization of objects specified by a text prompt, on real-world photographs. Each query is a pair $(I, c)$ of an image and a category name, and a model returns a set of boxes $B$ for the instances of $c$ in $I$. A query is positive if $c$ has at least one annotated instance in $I$, and negative otherwise. Positive queries measure localization and, through the number of returned boxes $hat(n) = |B|$, counting. Negative queries measure false positives, in the spirit of POPE @li2023pope. Classification is covered by the review only.
 
 == Dataset
 // [budget] 0.25 p
-#todo[main: ODinW-13 subset (4 to 6 datasets, up to 200 images each); control: COCO val subset (~500 images); negative prompts sampled from absent categories; sizes, split, rationale, contamination caveat]
+We use two sources. COCO val2017 serves as a control: we sample 500 images with a fixed seed and use the annotated categories of these images #todo[confirm: crowd annotations (iscrowd) excluded]. COCO is probably part of the training data of at least some of the models, so it indicates performance in a familiar setting only. For real-world images from varied domains, we use a subset of Roboflow100-VL @robicheaux2025rf100vl. We choose $N$ datasets with a rule fixed before any model is run: non-medical domain, at least three classes with plain-English names, at least 100 test images, and distinct image domains #todo[N = 4 or 5; list the datasets chosen with their sizes]. Medical datasets are excluded because zero-shot detectors are reported to perform near zero on them @robicheaux2025rf100vl, which would not inform our question. For each positive query, we add one negative query: a category drawn with a fixed seed from the dataset's class list among those absent from the image. #todo[totals: images, positive and negative queries per source]
 
 == Models
 // [budget] 0.25 p
-We compare three families of models: (a Qwen VLM, YOLO-World, and Grounding DINO). #todo[exact versions: Qwen3-VL-8B-Instruct, Qwen3.5-9B, YOLO-World-L, Grounding DINO Swin-T; optional Rex-Omni 3B; prompt templates (3 to 5 variants), box parsing, inference settings, thresholds]
+We compare four models from three families (@tab:models): two Qwen VLMs of successive generations, Qwen3-VL-8B-Instruct @qwen3vl2025 and Qwen3.5-9B @qwen35card, and two open-vocabulary detectors, Grounding DINO with a Swin-T backbone @liu2023groundingdino and YOLO-World-L @cheng2024yoloworld. We use the Grounding DINO checkpoint whose pre-training data exclude COCO #todo[verify the exact checkpoint id]. Each VLM receives every query under $K$ prompt templates, with $K$ between 3 and 5 #todo[final K and template texts], and decodes greedily, so each template gives one output per query #todo[confirm determinism across runs]. The answer is parsed into boxes in pixel coordinates. The coordinate convention of each Qwen model is checked on a pilot set of 20 images before the evaluation. Detectors receive the category name alone #todo[decide: text variants for detectors, e.g. "a photo of a c"].
+
+#figure(
+  table(
+    columns: (auto, auto, auto, auto),
+    align: (left, left, left, left),
+    table.header([*Model*], [*Type*], [*Text input*], [*Output*]),
+    [Qwen3-VL-8B-Instruct], [VLM], [$K$ templates], [boxes as text],
+    [Qwen3.5-9B], [VLM], [$K$ templates], [boxes as text],
+    [Grounding DINO (Swin-T)], [detector], [category name], [boxes, scores],
+    [YOLO-World-L], [detector], [category name], [boxes, scores],
+  ),
+  caption: [Models compared. VLMs return no per-box score.],
+) <tab:models>
 
 == Metrics
 // [budget] 0.20 p
-#todo[IoU 0.5 precision, recall, F1 at a fixed confidence threshold for detectors; parse failure rate for VLMs; count MAE; false positive rate on negative prompts; spread across prompt variants]
+Predicted and ground-truth boxes of the queried category are matched one-to-one at $"IoU" >= 0.5$ #todo[also report 0.75?]. We report precision, recall and F1 over positive queries #todo[micro or macro averaging across datasets]. VLMs return no per-box score, so average precision is not defined for them, and we compare all models at a single operating point. Detectors use the default confidence threshold $tau$ of their reference implementation #todo[values], and we report an F1 sweep over $tau$ as a sensitivity analysis. For counting, we report the mean absolute error and the exact-match accuracy of $hat(n)$ against the number of annotated instances, on positive queries. The hallucination rate is the share of negative queries for which a model returns at least one box. The parse failure rate is the share of VLM answers that contain no valid box list. Prompt sensitivity is the spread (maximum minus minimum) of F1 across the templates of a VLM.
 
 == Implementation
 // [budget] 0.15 p
-Experiments were run on #todo[local GPU or Google Colab, hardware details, libraries and versions, seeds, code link].
+Experiments were run on #todo[GPU or Google Colab, hardware details]. The Qwen models and Grounding DINO run through Hugging Face Transformers, and YOLO-World through Ultralytics, both on PyTorch #todo[library versions]. Seeds, prompts, thresholds and model identifiers are fixed in configuration files, and the code is available at #todo[repository link].
 
 = Results <sec:results>
 // [budget] 1.50 p (~600 words + Tab. 3 ~0.3 p + Fig. 1 ~0.5 p)
