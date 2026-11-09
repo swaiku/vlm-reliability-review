@@ -1,6 +1,31 @@
-# Références à contrôler (40) — NON validées
+# Références à contrôler — partiellement validées (voir la section Validation 2026-11-09)
 
 Mise à jour 2026-10-23 : titres, auteurs, années et identifiants arXiv des 40 références ont été comparés à l'API arXiv, et `paper/refs.yml` est généré à partir de ces métadonnées. Les colonnes AUTEUR de ce tableau sont donc réglées ; il reste LIEU (pour 12 preprints) et CHIFFRE (lecture du texte intégral). Voir aussi `sources.md`, `search-log.md` et `source-critique.md`.
+
+## Validation 2026-11-09
+
+**Métadonnées : validées.** Titre, auteurs (nombre et ordre) et année comparés à l'API arXiv pour 43 des 44 entrées de `paper/refs.yml` : aucun écart. Les années de `refs.yml` suivent la conférence, pas le preprint (HallusionBench, Sclar, MMBench, Molmo, Ramachandran, CountGD++), ce qui est voulu. Qwen3-VL a un auteur collectif (« Qwen Team »). La 44e entrée, Qwen3.5-9B, est une fiche Hugging Face (HTTP 200 le 2026-11-09, pas d'article).
+
+**Lieux confirmés** (commentaire arXiv ou Semantic Scholar) : POPE (EMNLP 2023), HallusionBench (CVPR 2024), CountBench (ICCV 2023), BLINK (ECCV 2024), Zhang (NeurIPS 2024), Sclar (ICLR 2024), MMBench (ECCV 2024), PARC (CVPR 2025), Promptception (EMNLP 2025), Ding (Findings EMNLP 2025), Groot (TrustNLP 2024), YOLO-World (CVPR 2024), OWLv2 (NeurIPS 2023), RF100-VL (NeurIPS 2025), Ramachandran (ICLR 2026), DetToolChain (ECCV 2024), OmniLabel (ICCV 2023), CountGD (NeurIPS 2024), CountGD++ (CVPR 2026), UNICBench (CVPR 2026), Molmo (CVPR 2025), Sapkota (Information Fusion 2025), CLIP-Count (ACM MM 2023). Ajoutés à `refs.yml` le 2026-11-09 : Grounding DINO (ECCV 2024), Kosmos-2 (ICLR 2024), LLMDet (CVPR 2025), LVLM-Count (TMLR), MERLIM (CVPRW 2025), Fuzesséry (SAMI 2025).
+
+**Lieux non confirmés, à laisser en preprint ou en atelier tel quel** : Rex-Omni et GroundingME (Semantic Scholar donne « CVPR 2025 », impossible pour des preprints d'octobre et décembre 2025 : ignoré), BlindTest (ACCV 2024 dans `refs.yml`, aucune source interrogée ne le confirme), Levine (atelier ICLR 2023), Lan (atelier CVPR 2026 d'après le commentaire arXiv), AMBER, les deux surveys (Bai, Liu), CountQA, Owusu, VLM-RobustBench, SigLIP 2, Qwen2.5-VL, Qwen3-VL.
+
+**Chiffres relus dans le texte** (PDF lus via alphaXiv, pages les plus pertinentes seulement) :
+- HallusionBench : 31,42 % de précision par paire pour GPT-4V (évaluation humaine ; 28,79 avec le juge GPT-4).
+- BLINK : GPT-4V 51,26 %, humains 95,70 %.
+- BlindTest : 58,07 % en moyenne, Sonnet-3.5 à 77,84 %.
+- Promptception : jusqu'à 15 % d'écart, 61 prompts, 10 modèles.
+- CountBench : 540 images, 2 à 10 instances.
+- MERLIM : 300 664 paires image-question.
+- UNICBench : 21 modèles sur la piste image (45 modèles au total sur les trois modalités) ; corrigé.
+- DetToolChain : 65,8 AP50 sur les classes nouvelles de COCO contre 43,1 pour CORA, soit +22,7 ; le résumé dit +21,5 ; corrigé.
+- Ramachandran : GPT-4o 60,62 AP50 contre 91,30 pour Co-DETR ; prompting direct 17,69.
+- CountGD++ : MAE 8,39 sur FSC-147 en texte seul, contre 43,18 pour Gemini-2.5 et 40,41 pour Molmo.
+- Zhang : GPT-4 60,6 % contre 79,2 % pour EVA-G sur ImageNet ; corrélation de Spearman 0,76.
+- VLM-RobustBench : 49 types de corruption, 133 configurations, baisse maximale de 34 points.
+- Lan : environ 3 points de perte sur POPE avec 75 % des tokens retirés.
+
+**Chiffres jamais relus dans le texte intégral** (ne pas les citer sans relecture) : Sclar (76 points), CountQA (42,9 %), Fuzesséry, PARC, Levine, Groot, Grounding DINO (52,5 AP), YOLO-World (35,4 AP), OWLv2 (44,6 %), Rex-Omni, RF100-VL (moins de 2 %), Qwen3-VL (48,6 mAP), GroundingME (45,1 %), OmniLabel, CountGD, LVLM-Count, SigLIP 2, MMBench, Bai et les 7 sources remises pour le Background.
 
 Statut global : trouvées par recherche web, lues au niveau page arXiv / résumé. Aucun PDF lu en entier.
 Pour chaque entrée : vérifier (1) l'identifiant arXiv/DOI, (2) le titre exact, (3) la liste complète des auteurs, (4) le lieu et l'année de publication, (5) que l'affirmation citée figure bien dans le texte intégral.
@@ -47,7 +72,7 @@ Légende « Point à vérifier » :
 | 33 | Sapkota & Karkee, 2025, Information Fusion, arXiv:2508.19294 | projection : les LVLMs rattraperont les détecteurs | LIEU |
 | 34 | Fu et al., 2025, arXiv:2501.18954 (LLMDet) | co-entraînement avec un LLM améliore Grounding DINO | AUTEUR (prénom) |
 | 35 | Ramachandran et al., 2026, ICLR, arXiv:2507.01955 | MFMs loin des spécialistes sur toutes les tâches ; meilleurs modèles moins sensibles au prompt | CHIFFRE, relire dans le texte |
-| 36 | Wu et al., 2024, ECCV, arXiv:2403.12488 (DetToolChain) | +21,5 % AP50 sur COCO classes nouvelles | LIEU (ECCV vu sur page de conférence seulement) |
+| 36 | Wu et al., 2024, ECCV, arXiv:2403.12488 (DetToolChain) | 65,8 AP50 sur COCO classes nouvelles contre 43,1 pour CORA (+22,7 selon le tableau ; le résumé dit +21,5) | LIEU (ECCV vu sur page de conférence seulement) |
 | 37 | Jiang et al., 2023, arXiv:2305.07304 (CLIP-Count) | comptage guidé par texte, FSC-147/CARPK/ShanghaiTech | AUTEUR, LIEU |
 | 38 | Qwen Team, 2025, arXiv:2511.21631 (Qwen3-VL) | tailles 2B/4B/8B/32B + 2 MoE ; 48,6 mAP ODinW-13 pour le plus gros | CHIFFRE |
 | 39 | Li et al., 2025, arXiv:2512.17495 (GroundingMe) | 25 modèles, 1 005 exemples ; meilleur 45,1 %, la plupart 0 % sur le rejet | CHIFFRE, LIEU |
@@ -57,3 +82,23 @@ Notes
 - MME (arXiv:2306.13394) a été retiré pour tenir dans les 40 sources.
 - Qwen3.5-9B n'est PAS dans cette liste : pas d'article vérifié, à citer comme ressource en ligne (fiche Hugging Face ou blog Qwen) en vérifiant l'URL et la date d'accès.
 - Ne citer aucun chiffre dans le papier sans l'avoir relu dans le corps de l'article.
+
+
+## Mise à jour 2026-10-26 (restructuration par tâche)
+
+- 10 sources retirées (voir `sources.md`) : lignes [5], [6], [16], [18], [25], [29], [30], [33], [34], [37] ci-dessus, à ignorer.
+- 9 sources ajoutées, métadonnées comparées à l'API arXiv (titres, auteurs, années) :
+
+| # | Réf. | Affirmation utilisée | Point à vérifier |
+|---|---|---|---|
+| 41 | Amini-Naieni et al., 2024, NeurIPS, arXiv:2407.04619 (CountGD) | spécialiste du comptage, basé sur Grounding DINO, texte ou exemples | CHIFFRE (aucun lu), entraînement sur FSC-147 |
+| 42 | Amini-Naieni et Zisserman, 2026, CVPR, arXiv:2512.23351 (CountGD++) | comparaison avec des MLLMs sur FSC-147 | CHIFFRE ; comparaison non lue |
+| 43 | Qharabagh et al., 2024, arXiv:2412.00686 (LVLM-Count) | les LVLMs se dégradent quand le nombre d'objets augmente | LIEU (preprint v4) |
+| 44 | Rong et al., 2026, CVPR, arXiv:2603.00595 (UNICBench) | 5 300 images, 21 MLLMs sur la piste image (45 sur image, texte et audio) | CHIFFRE |
+| 45 | Owusu et Sheshappanavar, 2026, arXiv:2608.23845 | survey du comptage ; benchmarks saturés | LIEU (aucun) |
+| 46 | Tschannen et al., 2025, arXiv:2502.14786 (SigLIP 2) | spécialiste de présence (similarité image-texte) | seuil de décision à régler sur un jeu de réglage |
+| 47 | Villa et al., 2023, arXiv:2312.02219 (MERLIM) | benchmark d'hallucination inter-modale | liste exacte des tâches |
+| 48 | Saxena et al., 2026, arXiv:2603.06148 (VLM-RobustBench) | perturbations spatiales de faible sévérité nuisibles | CHIFFRE |
+| 49 | Lan et al., 2026, CVPR Workshop GRAIL-V, arXiv:2605.22903 | scores d'un benchmark d'hallucination peu sensibles à la perte de tokens d'image | benchmark non identifié dans le résumé |
+
+Total : 39 sources (plafond 40).

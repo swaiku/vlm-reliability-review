@@ -1,5 +1,24 @@
 #import "@preview/charged-ieee:0.1.4": ieee
 
+// =============================================================================
+// PAGE BUDGET: 8 pages IEEE two-column, references EXCLUDED from the 8 pages.
+// Assumption: ~900 words per page of pure text. Tables and figures are counted
+// separately. Measure after the first draft of section 3 and rebalance.
+//
+//  Section                          Pages  ~Words  Floats
+//  Title block + Abstract + Intro    1.00    500   title block ~0.4 p
+//  2 Background                      0.75    650   -
+//  3 Review (reliability of VLMs)    2.25   1500   Tab. 1 benchmarks, full width (~0.5 p)
+//  4 Methods                         1.15    800   Tab. 2 tasks and models (~0.25 p)
+//  5 Results                         1.40    550   Tab. 3 main results (~0.3 p), Fig. 1 qualitative (~0.5 p)
+//  6 Discussion                      0.80    700   -
+//  7 Conclusion                      0.35    300   -
+//  Slack (float placement)           0.30
+//  Total                             8.00   ~5000
+//
+// Each section below carries its own [budget] tag. Remove before submission.
+// =============================================================================
+
 // Paper outline. The introduction is drafted; later sections are placeholders.
 
 // Keep draft notes visible without disrupting the two-column reading flow.
@@ -44,16 +63,16 @@
 
 Vision-Language Models (VLMs) can answer questions about images and describe what they show. Visual information extraction covers many tasks. A model may need to decide whether an object is present, classify it, count its instances, describe its attributes, or locate it with coordinates or bounding boxes. It may also need to describe relations between objects, such as distance or depth, and read text in a scene. VLMs offer one general way to approach these tasks. However, an answer is only useful if it is reliable and studies have, for example, reported errors in object presence, counting, and visual grounding @li2023pope @tamarapalli2025countqa @li2025groundingme.
 
-It is hard to draw one clear conclusion about VLM reliability because studies test different tasks, models, images, and measures. Specialized systems also exist for many extraction tasks. Comparing VLMs with these systems can show where a general model is strong and where it falls short. This paper reviews results from previous studies on classification, counting, and localization, together with related reliability issues. We then focus on object localization in real-world images and compare VLMs with specialized open-vocabulary object detectors.
+It is hard to draw one clear conclusion about VLM reliability because studies test different tasks, models, images, and measures. Specialized systems also exist for many extraction tasks, and few of the studies we reviewed compare a VLM with such a system on the same real-world images. Such a comparison can show where a general model is strong and where it falls short. This paper reviews results from previous studies on object presence, localization, and counting, together with factors that affect reliability. We then compare two VLMs with one specialized model for each of these three tasks on real-world images.
 
 == Research question
 // [budget] 2 sentences max
-How Reliable Are Vision-Language Models for Visual Information Extraction?
+To what extent are VLMs reliable for visual information extraction (object presence, localization, and counting) on real-world images, compared with specialized models?
 
 == Contributions
 // [budget] 3 bullets, 1 line each. Contribution wording is yours to write.
-- A narrative review of previous studies on VLM reliability in classification, counting, and localization.
-- An experiment that compares VLMs with open-vocabulary detectors on object localization in real-world images.
+- A narrative review of previous studies on VLM reliability for object presence, localization, and counting.
+- An experiment on real-world images that compares two VLMs with a specialized model for each of the three tasks.
 - An analysis of where the models make errors and which questions remain open.
 
 == Paper overview
@@ -90,21 +109,35 @@ A reliable system must also say when the object is not there. OmniLabel adds neg
 Finally, in this paper we use reliability in a broader sense than accuracy. A reliable model gives correct answers, keeps them when the prompt is reworded without changing its meaning @sclar2024format @schmalfuss2025parc, and expresses a confidence that matches its chance of being right. A model with this last property is called calibrated: among answers given with 80% confidence, about 80% should be correct @levine2023calibration @groot2024overconfidence.
 
 = Reliability of VLMs: A Review <sec:review>
+// [budget] 2.25 p (~1500 words text + Tab. 1 ~0.5 p). Review = core of the paper.
+// Sub-budgets below sum to 1.75 p text + 0.5 p table. Method and limits of the search: review/search-log.md.
+// Opening paragraph ~0.10 p
 #todo[Explain the review approach and summarize the evidence across the three tasks.]
 
 == Object Presence
+// [budget] 0.35 p
+// sources: li2023pope, wang2023amber, villa2023merlim, guan2024hallusionbench, li2025groundingme (rejection), lan2026seeing (what yes/no scores measure), bai2024survey
 #todo[Review object hallucination, absence queries, and false positives.]
 
 == Object Localization
+// [budget] 0.40 p
+// sources: ramachandran2026gpt4o, jiang2025rexomni, wu2024dettoolchain, robicheaux2025rf100vl, wu2024vstar, liu2023groundingdino, cheng2024yoloworld
 #todo[Review visual grounding, box quality, and comparisons with specialized detectors.]
 
 == Object Counting
+// [budget] 0.40 p
+// sources: tamarapalli2025countqa, qharabagh2024lvlmcount, rong2026unicbench, fuzesseery2025counting, paiss2023countbench, rahmanzadehgervi2024blind, amini2024countgd, amini2025countgdpp, owusu2026counting
 #todo[Review direct counting and counting from localized objects.]
 
 == Factors Affecting Reliability
+// [budget] 0.30 p
+// sources: schmalfuss2025parc, ismithdeen2025promptception, sclar2024format (prompt); ding2025knowledge, groot2024overconfidence, levine2023calibration (confidence); saxena2026robustbench (domain shift)
 #todo[Discuss prompt wording, confidence, and domain shift across the three tasks.]
 
 == Synthesis
+// [budget] 0.20 p
+// Tab. 1 [budget] ~0.5 p, full width (place with #place(top, float: true, scope: "parent")):
+// benchmark, task, size, key finding (POPE, AMBER, MERLIM, CountQA, UNICBench, BLINK, PARC, Roboflow100-VL, OmniLabel, GroundingME)
 #todo[Summarize the comparison with detectors and identify what the experiment adds.]
 
 = Methods <sec:methods>
@@ -126,10 +159,15 @@ Finally, in this paper we use reliability in a broader sense than accuracy. A re
 #todo[Record code, model versions, settings, and hardware.]
 
 = Results <sec:results>
+// [budget] 1.40 p (~550 words + Tab. 3 ~0.3 p + Fig. 1 ~0.5 p)
+// Tab. 3: models x tasks x sources; Fig. 1: qualitative examples and failure cases
 #todo[Present model comparisons and illustrative errors.]
 
 = Discussion <sec:discussion>
+// [budget] 0.80 p (~700 words)
+// link each finding to the review themes; limits: dataset choice, two VLMs of one family, possible training-data overlap, no box scores for VLMs
 #todo[Interpret the results, limitations, and practical implications.]
 
 = Conclusion <sec:conclusion>
+// [budget] 0.35 p (~300 words)
 #todo[Answer the research question and outline future work.]
