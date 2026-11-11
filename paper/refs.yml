@@ -1,4 +1,4 @@
-# Bibliography in Hayagriva format (44 sources).
+# Bibliography in Hayagriva format (50 sources).
 # Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23 and 2026-10-26).
 # Venues come from the arXiv comment field or conference pages. Author names were
 # split into 'Last, First' by a heuristic: check names with particles when proofreading.
@@ -823,3 +823,75 @@ jiang2023clipcount:
   serial-number:
     arxiv: "2305.07304"
   url: https://arxiv.org/abs/2305.07304
+
+qwen36card:
+  type: Web
+  title: "Qwen3.6-27B (model card)"
+  author:
+    - name: Qwen Team
+  date: 2026-04
+  url:
+    value: https://huggingface.co/Qwen/Qwen3.6-27B
+    date: 2026-11-11
+
+qwen38card:
+  type: Web
+  title: "Qwen3.8-27B (model card)"
+  author:
+    - name: Qwen Team
+  date: 2026-08
+  url:
+    value: https://huggingface.co/Qwen/Qwen3.8-27B
+    date: 2026-11-11
+
+gemma2025gemma3:
+  type: Article
+  title: "Gemma 3 Technical Report"
+  author:
+    - name: Gemma Team
+  date: 2025
+  serial-number:
+    arxiv: "2503.19786"
+  url: https://arxiv.org/abs/2503.19786
+
+deng2026holocount:
+  type: Article
+  title: "HoloCount: A Holistic Visual Counting Benchmark for MLLMs"
+  author:
+    - "Deng, Jinhong"
+    - "Qiao, Limeng"
+    - "Wan, Guanglu"
+  date: 2026
+  serial-number:
+    arxiv: "2607.06420"
+  url: https://arxiv.org/abs/2607.06420
+
+wang2026pvfh:
+  type: Article
+  title: "PVFH-Bench: Benchmarking Premise-Induced Visual Fixation Hallucinations in Vision-Language Models"
+  author:
+    - "Wang, Xinhao"
+    - "Cui, Junbo"
+    - "Liu, Zhenghao"
+    - "Yao, Yuan"
+    - "Li, Xiaohua"
+    - "Gu, Yu"
+    - "Yu, Ge"
+  date: 2026
+  serial-number:
+    arxiv: "2610.14635"
+  url: https://arxiv.org/abs/2610.14635
+
+chhipa2024ovrobust:
+  type: Article
+  title: "Open-Vocabulary Object Detectors: Robustness Challenges under Distribution Shifts"
+  author:
+    - "Chhipa, Prakash Chandra"
+    - "De, Kanjar"
+    - "Chippa, Meenakshi Subhash"
+    - "Saini, Rajkumar"
+    - "Liwicki, Marcus"
+  date: 2024
+  serial-number:
+    arxiv: "2405.14874"
+  url: https://arxiv.org/abs/2405.14874

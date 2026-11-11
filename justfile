@@ -17,8 +17,12 @@ setup:
 
 # Run the evaluation
 eval *args:
-    cd experiments && uv run python -m src.evaluate {{args}}
+    cd experiments && uv run python -m src.run {{args}}
 
 # Remove the compiled PDF
 clean:
     rm -f paper/main.pdf
+
+# Self-check of the metrics and parsers (no GPU needed)
+test:
+    cd experiments && python3 -m tests.test_evaluate

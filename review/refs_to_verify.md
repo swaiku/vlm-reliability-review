@@ -102,3 +102,13 @@ Notes
 | 49 | Lan et al., 2026, CVPR Workshop GRAIL-V, arXiv:2605.22903 | scores d'un benchmark d'hallucination peu sensibles à la perte de tokens d'image | benchmark non identifié dans le résumé |
 
 Total : 39 sources (plafond 40).
+
+## Relecture 2026-11-11 (alphaXiv, texte intégral)
+
+- **Rex-Omni (2510.12798)** : COCO zéro-shot, F1@IoU0,5 = 72,0 (Rex-Omni) contre 69,8 (Grounding DINO-Swin-T) et 64,0 (Qwen2.5-VL-7B) ; F1@IoU0,95 = 15,9 contre 23,0 et 12,6 ; F1@mIoU 52,9 contre 56,6. Les détecteurs sont évalués à leur meilleur seuil de F1 (AP écarté parce que les MLLM n'ont pas de score fiable). Dense200 : Qwen2.5-VL-7B 1,1 contre 36,9 pour Grounding DINO. Auteurs communs avec Grounding DINO : confirmé (Zeng, Ren).
+- **RF100-VL (2505.20612, NeurIPS 2025 D&B)** : mAP zéro-shot, 100 jeux : Grounding DINO 15,7 ; Qwen2.5-VL 72B 5,6 ; Gemini 2.5 Pro 11,6. Médical : 2,1 ; 1,6 ; 5,3. Le résumé dit « moins de 2 % » : le tableau donne 2,1 pour Grounding DINO. Citer le tableau. Sur ODinW-13, Grounding DINO 49,2 contre 15,7 sur RF100-VL.
+- **Fuzesséry (2512.03233)** : FSC-147 test, MAE : GPT-4o 20,73 / 22,1 ; GPT-5 20,96 / 21,59 (prompts 1 / 2) ; CountTX 15,69, RichCount 16,37, VLCounter 17,05, CLIP-count 17,78, VA-Count 17,88, ZSC 22,09. CARPK : GPT-4o 31,08 / 38,57 ; GPT-5 30,13 / 40,41 ; RCC 8,13, CLIP-count 11,96. Échecs : 2 560 Lego prédits à 1.
+- **HoloCount (2607.06420, Meituan, arXiv juillet 2026, ajouté 2026-11-11)** : 2 480 questions, 20 modèles. Exact match moyen : Qwen3.5-9B 71,4 ; Qwen3-VL-8B 58,1 ; Gemma3-27B 48,4. Dense : Qwen3.5-27B 20,0 ; Gemma3-27B 0,0. Cible absente : Qwen3-VL-8B 96,4 ; Gemma3-27B 87,2. Pas de spécialiste. Preprint, pas de venue.
+- **WADE (2608.22950)** : Qwen3-VL-2B et d'autres petits VLM, pas de détecteur spécialisé (limite que les auteurs citent). Non retenu.
+- **PVFH-Bench (2610.14635, arXiv 10 oct. 2026)** : 258 images COCO val 2014, 1 032 questions, 10 LVLM. Qwen3-VL-8B : 98,45 / 80,62 / 81,40 / 58,14 (vanilla / objet confondable / fausse prémisse / cœur) ; Gemma-3-27B : 98,84 / 67,05 / 60,08 / 28,29 ; Gemma-3-12B cœur 18,99 ; Gemma-3-4B cœur 1,94. Juge LLM : Qwen3.5-Flash (même famille que des modèles évalués ; re-notation GPT-5.4-mini, écarts ≤ 4,55 points). Accord humain-juge 95,5 % sur 200 réponses. Preprint, pas de spécialiste.
+- **Chhipa et al. (2405.14874)** : détecteurs seuls, aucun VLM. COCO-O, mAP 0,5:0,95 moyenne : OWL-ViT 15,97, YOLO-World 23,42, Grounding DINO 41,52 (COCO propre : 26,40 ; 39,30 ; 48,40, valeur Grounding DINO reprise de son article). COCO-DC original : YOLO-World 49,8, OWL-ViT 42,5, Grounding DINO 40,4 ; adversarial : 24,6 ; 22,8 ; 34,7. Venue non identifiée dans le texte lu.

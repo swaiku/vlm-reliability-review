@@ -1,10 +1,20 @@
 # Experiments
 
-Bounding-box localization of text-prompted objects: Qwen VLM vs YOLO-World vs Grounding DINO.
+One VLM (served by Ollama) against one specialist per task, on existing benchmarks:
+
+| Task | VLM output | Specialist |
+|---|---|---|
+| Presence | yes/no | SigLIP 2 score, threshold tuned on a `tune` split |
+| Localization | boxes in text, no score | YOLO-World (or Grounding DINO, `localization_specialist` in the config), best-F1 threshold (Rex-Omni protocol) |
+| Counting | number | CountGD (wrapper not written yet) |
+
+## Status
+
+Written without a GPU: `python3 -m tests.test_evaluate` (`just test`) checks the metrics and parsers. `src/run.py`, the Ollama call and the specialist wrappers have **not been run**. First checks on the GPU machine: Ollama uses the GPU, the box format of the chosen VLM (`box_format` in the config), the `post_process_grounded_object_detection` argument names, and whether CountGD builds under ROCm.
 
 ## Setup
 
-Requires [uv](https://docs.astral.sh/uv/).
+Requires [uv](https://docs.astral.sh/uv/) and a running Ollama server with the VLM pulled (`ollama pull <tag>`).
 
 ```bash
 just setup   # or: cd experiments && uv sync
@@ -12,8 +22,7 @@ just setup   # or: cd experiments && uv sync
 
 ## Data
 
-Not versioned. Download instructions: TODO (dataset name, link, subset used).
-Place files in `data/`.
+Not versioned. One JSONL file per task in `data/`, row format in `src/run.py`. Benchmarks to choose: TODO (presence: POPE or PVFH-Bench; localization: COCO subset or Roboflow100-VL; counting: FSC-147).
 
 ## Run
 
@@ -21,8 +30,8 @@ Place files in `data/`.
 just eval --config configs/default.yaml
 ```
 
-Raw predictions go to `results/predictions/`, metrics to `results/metrics.csv`, figures to `results/figures/`.
+Metrics go to `results/metrics.csv` and `results/<task>.json`.
 
 ## Reproducibility
 
-Pin exact model versions, prompts, IoU thresholds and the random seed in `configs/`. Record the hardware used (GPU or Colab) here.
+Pin the exact Ollama tag, its quantization, the prompts, the IoU threshold and the seed in `configs/`. Record the hardware here.

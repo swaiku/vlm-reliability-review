@@ -1,22 +1,40 @@
 [project]
 name = "vlm-reliability-experiments"
 version = "0.1.0"
-description = "Bounding-box localization: Qwen VLM vs YOLO-World vs Grounding DINO"
+description = "One VLM (via Ollama) against one specialist per task: presence, localization, counting"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 dependencies = [
     "numpy",
-    "pandas",
     "pyyaml",
     "pillow",
-    "matplotlib",
-    "torch",
     "transformers",
     "ultralytics",
 ]
 
+[project.optional-dependencies]
+# Pick the torch build: `uv sync --extra rocm` (AMD GPU) or `uv sync --extra cpu`.
+rocm = ["torch"]
+cpu = ["torch"]
+
 [dependency-groups]
-dev = [
-    "jupyter",
-    "ruff",
+dev = ["ruff", "jupyter", "pandas", "matplotlib"]
+
+[tool.uv]
+conflicts = [[{ extra = "rocm" }, { extra = "cpu" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-rocm", extra = "rocm" },
+    { index = "pytorch-cpu", extra = "cpu" },
 ]
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm7.2"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
