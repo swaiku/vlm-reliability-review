@@ -161,55 +161,23 @@ Specialist counters give a reference. CountGD repurposes Grounding DINO to count
 // [budget] 0.20 p
 // Tab. 1 [budget] ~0.5 p, full width: VLM vs specialist comparisons found in the reviewed studies, by task.
 #place(top, float: true, scope: "parent")[
+  #set text(size: 8pt)
+  #set par(justify: false)
   #figure(
     table(
-      columns: (auto, auto, auto, auto, 1fr),
-      align: (left, left, left, left, left),
-      table.header[*Task*][*Study*][*VLM*][*Specialist*][*Result*],
-      [Presence],
-      [@zhang2024classification (classification, indirect)],
-      [GPT-4],
-      [EVA-G (CLIP-type)],
-      [60.6% against 79.2% on ImageNet.],
-
-      [Presence], [None found], [-], [-], [No study compares a VLM with a specialist on object presence.],
-      [Localization],
-      [@ramachandran2026gpt4o],
-      [GPT-4o],
-      [Co-DETR],
-      [60.62 AP50 with prompt chaining, 17.69 with direct prompting, against 91.30.],
-
-      [Localization],
-      [@wu2024dettoolchain],
-      [GPT-4V, Gemini (with DetToolChain)],
-      [CORA],
-      [65.8 AP50 against 43.1 on COCO novel classes: the VLM is better.],
-
-      [Localization],
-      [@jiang2025rexomni],
-      [Rex-Omni (3B), Qwen2.5-VL-7B],
-      [Grounding DINO],
-      [COCO F1 at IoU 0.5: 72.0 and 64.0 against 69.8; at IoU 0.95: 15.9 and 12.6 against 23.0. Same authors as Grounding DINO.],
-
-      [Localization],
-      [@robicheaux2025rf100vl],
-      [Qwen2.5-VL (72B), Gemini 2.5 Pro],
-      [Grounding DINO],
-      [Zero-shot mAP over 100 datasets: 5.6 and 11.6 against 15.7.],
-
-      [Counting],
-      [@amini2025countgdpp],
-      [Gemini-2.5, Molmo],
-      [CountGD++],
-      [MAE 43.18 and 40.41 against 8.39 on FSC-147.],
-
-      [Counting],
-      [@fuzesseery2025counting],
-      [GPT-4o, GPT-5],
-      [CountTX (best zero-shot)],
-      [FSC-147 test MAE 20.73 and 20.96 against 15.69; CARPK 30.13 or more against 8.13 (RCC).],
+      columns: (0.9fr, 1.2fr, 1.7fr, 1.2fr, 1.5fr, 2fr),
+      inset: (x: 3pt, y: 2pt),
+      align: left,
+      table.header[*Task*][*Study*][*VLM*][*Specialist*][*Data, metric*][*Direction*],
+      [Presence], [Zhang et al. #cite(<zhang2024classification>) (indirect)], [GPT-4], [EVA-G], [ImageNet, accuracy], [Specialist better],
+      [Localization], [Ramachandran et al. #cite(<ramachandran2026gpt4o>)], [GPT-4o], [Co-DETR], [CV tasks, AP50], [Specialist better, prompt-dependent],
+      [Localization], [DetToolChain #cite(<wu2024dettoolchain>)], [GPT-4V, Gemini], [CORA], [COCO novel, AP50], [VLM better, dedicated prompting],
+      [Localization], [Rex-Omni #cite(<jiang2025rexomni>) #sym.dagger], [Rex-Omni, Qwen2.5-VL-7B], [Grounding DINO], [COCO, F1], [Mixed: IoU 0.5 vs 0.95],
+      [Localization], [RF100-VL #cite(<robicheaux2025rf100vl>)], [Qwen2.5-VL, Gemini 2.5 Pro], [Grounding DINO], [RF100-VL, mAP], [Specialist better],
+      [Counting], [CountGD++ #cite(<amini2025countgdpp>) #sym.dagger], [Gemini-2.5, Molmo], [CountGD++], [FSC-147, MAE], [Specialist better],
+      [Counting], [Füzesséry et al. #cite(<fuzesseery2025counting>)], [GPT-4o, GPT-5], [CountTX, RCC], [FSC-147, CARPK, MAE], [Specialist better, small gap on FSC-147],
     ),
-    caption: [Studies that compare a VLM with a specialist model on the same data. Values come from the full text of each study.],
+    caption: [Studies that compare a VLM with a specialist model. Datasets and metrics differ, so rows cannot be compared with each other. #sym.dagger Same group as the specialist. We found no direct study for object presence. All VLMs date from 2025 or earlier.],
   ) <tab:comparisons>
 ]
 

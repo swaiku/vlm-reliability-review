@@ -20,6 +20,8 @@ Requires [uv](https://docs.astral.sh/uv/) and a running Ollama server with the V
 just setup   # or: cd experiments && uv sync
 ```
 
+No lock file is committed yet: run `uv lock` on the GPU machine. `uv sync` installs the default PyTorch build; for the AMD GPU, install the ROCm build instead (index `https://download.pytorch.org/whl/rocm7.2`).
+
 ## Data
 
 Not versioned. One JSONL file per task in `data/`, row format in `src/run.py`. Benchmarks to choose: TODO (presence: POPE or PVFH-Bench; localization: COCO subset or Roboflow100-VL; counting: FSC-147).
