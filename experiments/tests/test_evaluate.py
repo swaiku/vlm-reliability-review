@@ -15,6 +15,9 @@ assert ev.box_metrics([[(0, 0, 10, 10)]], [[(0, 0, 10, 10)]]) == (1.0, 1.0, 1.0)
 f, t = ev.best_f1([[((0, 0, 10, 10), 0.9), ((50, 50, 60, 60), 0.2)]], [[(0, 0, 10, 10)]])
 assert f == 1.0 and 0.2 < t <= 0.9
 
+# the threshold found on one set is applied to another: the false low-score box is removed
+assert ev.apply_threshold([[((0, 0, 10, 10), 0.9), ((50, 50, 60, 60), 0.2)]], t) == [[(0, 0, 10, 10)]]
+
 m = ev.presence_metrics([True, True, False, False], [True, False, False, True])
 assert m["acc"] == 0.5 and m["yes_ratio"] == 0.5
 assert ev.count_metrics([3, 5], [3, 7]) == {"exact": 0.5, "mae": 1.0, "rmse": 2 ** 0.5}

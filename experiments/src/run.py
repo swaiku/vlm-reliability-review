@@ -37,16 +37,20 @@ def presence(rows, cfg, spec):
 
 
 def localization(rows, cfg, spec):
+    tune = [r for r in rows if r["split"] == "tune"]
     test = [r for r in rows if r["split"] == "test"]
-    gts = [[tuple(b) for b in r["boxes"]] for r in test]
+    boxes = lambda rs: [[tuple(b) for b in r["boxes"]] for r in rs]
+    scored = lambda rs: [spec.detect(r["image"], r["label"]) for r in rs]
     thr = cfg["iou_threshold"]
     vlm_boxes = [vlm.parse_boxes(vlm.ask(cfg["vlm"]["model"], r["image"], cfg["prompts"]["localization"].format(**r),
                                          think=cfg["vlm"]["think"]),
                                  Image.open(r["image"]).size, cfg["vlm"]["box_format"]) for r in test]
-    p, r_, f = ev.box_metrics(vlm_boxes, gts, thr)
-    best, t = ev.best_f1([spec.detect(r["image"], r["label"]) for r in test], gts, thr)
+    p, r_, f = ev.box_metrics(vlm_boxes, boxes(test), thr)
+    # the specialist's score threshold is chosen on the tuning part, then applied to the test part
+    _, t = ev.best_f1(scored(tune), boxes(tune), thr)
+    sp, sr, sf = ev.box_metrics(ev.apply_threshold(scored(test), t), boxes(test), thr)
     return {"vlm": {"precision": p, "recall": r_, "f1": f, "empty_answers": sum(not b for b in vlm_boxes) / len(test)},
-            "specialist": {"f1_best_threshold": best, "threshold": t}}
+            "specialist": {"precision": sp, "recall": sr, "f1": sf, "threshold": t}}
 
 
 def counting(rows, cfg, spec):

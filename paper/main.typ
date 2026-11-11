@@ -187,19 +187,21 @@ The evidence is uneven across tasks. Counting is the most studied, and its studi
 #todo[Describe the shared protocol for comparing one VLM with one specialized model per task.]
 
 == Task
-#todo[Define object presence, localization, and counting tasks.]
+We use the three tasks defined in @sec:background. For object presence, the model says whether an object of a given class is in the image. For localization, it returns a box for each instance of the class. For counting, it returns the number of instances. The class is given as a text prompt, and the VLM and the specialist receive the same class names.
 
 == Dataset
-#todo[State the existing benchmarks, subsets, selection rules, and annotations.]
+We reuse existing benchmarks, so that the three tasks are scored on the same real-world photographs. The main set is the 500 COCO validation images of POPE @li2023pope @lin2014coco, which were chosen for having more than three annotated objects. For presence, we use the six yes/no questions of POPE per image, half about a present object and half about an absent one, under its random, popular, and adversarial settings (3,000 questions each). For localization and counting, we take the targets from the COCO annotations of the same images: the boxes of each present class and their number, without crowd regions. The absent classes of POPE give negative queries, where the correct output is no box and a count of zero.
+
+Two out-of-domain sets complete it. For localization, we use a subset of Roboflow100-VL, which holds 100 datasets from domains that web pre-training rarely covers @robicheaux2025rf100vl. For counting, we use the test split of FSC-147 @ranjan2021fsc147. CountGD was trained on the FSC-147 training split @amini2024countgd, so this set may favor the specialist. Each set is split by image into a tuning part and a test part: the tuning part sets the score thresholds of the specialists. #todo[Sizes of the subsets and of the tuning and test parts.]
 
 == Models
-#todo[List the VLM, the specialized baselines (SigLIP 2, YOLO-World, CountGD), quantization, and input prompts.]
+We compare one VLM with one specialist for each task. #todo[VLM: model, Ollama tag, quantization.] The specialists are SigLIP 2 for presence @tschannen2025siglip2, YOLO-World for localization @cheng2024yoloworld, and CountGD for counting @amini2024countgd. We did not use Grounding DINO for localization because CountGD is built on it, which would make the two specialists dependent. The VLM gets a fixed prompt for each task: a yes/no question, a request for a JSON list of boxes, and a request for one number. Its reasoning mode is off and its temperature is 0. CountGD receives the class name only, as the VLM does. SigLIP 2 returns a similarity score, so it predicts "present" when the score is above a threshold chosen on the tuning part.
 
 == Metrics
-#todo[Define measures for boxes, presence, counting, and robustness.]
+For presence, we report accuracy, precision, recall, F1, and the share of "yes" answers. For localization, we match predicted and true boxes one to one at IoU 0.5 and report precision, recall, and F1. VLM boxes have no score, so YOLO-World is compared at one score threshold, chosen on the tuning part to maximize F1, as in @jiang2025rexomni. For counting, we report exact-match accuracy, MAE, and RMSE. For all three tasks, we also report the share of answers that cannot be parsed. Calibration cannot be measured for the VLM, because it returns no confidence for its boxes or counts. #todo[Prompt robustness and false-positive rate on negative queries.]
 
 == Implementation
-#todo[Record code, model versions, settings, and hardware.]
+The VLM runs locally with Ollama, with a fixed seed. The specialists run with PyTorch through Transformers and Ultralytics. The environment is managed with uv. #todo[Versions, hardware, dates.]
 
 = Results <sec:results>
 // [budget] 1.40 p (~550 words + Tab. 3 ~0.3 p + Fig. 1 ~0.5 p)

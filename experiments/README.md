@@ -24,7 +24,15 @@ No lock file is committed yet: run `uv lock` on the GPU machine. `uv sync` insta
 
 ## Data
 
-Not versioned. One JSONL file per task in `data/`, row format in `src/run.py`. Benchmarks to choose: TODO (presence: POPE or PVFH-Bench; localization: COCO subset or Roboflow100-VL; counting: FSC-147).
+Not versioned. One JSONL file per task in `data/` (row format in `src/run.py`), with a `split` of `tune` or `test` chosen by image. The tuning part sets the specialists' score thresholds.
+
+| Set | Source | Used for |
+|---|---|---|
+| Main | The 500 COCO val images of POPE (3 settings, 6 questions per image) | presence (POPE questions); localization and counting from the COCO annotations of the same images, crowd regions excluded; absent POPE classes give negative queries (no box, count 0) |
+| Out-of-domain localization | Subset of Roboflow100-VL | localization |
+| Out-of-domain counting | FSC-147 test split | counting (CountGD was trained on FSC-147 train: caveat) |
+
+The converters that build these JSONL files are not written yet.
 
 ## Run
 

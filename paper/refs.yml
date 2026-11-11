@@ -1,4 +1,4 @@
-# Bibliography in Hayagriva format (50 sources).
+# Bibliography in Hayagriva format (52 sources).
 # Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23 and 2026-10-26).
 # Venues come from the arXiv comment field or conference pages. Author names were
 # split into 'Last, First' by a heuristic: check names with particles when proofreading.
@@ -895,3 +895,33 @@ chhipa2024ovrobust:
   serial-number:
     arxiv: "2405.14874"
   url: https://arxiv.org/abs/2405.14874
+
+lin2014coco:
+  type: Article
+  title: "Microsoft COCO: Common Objects in Context"
+  author:
+    - "Lin, Tsung-Yi"
+    - "Maire, Michael"
+    - "Belongie, Serge"
+    - "Hays, James"
+    - "Perona, Pietro"
+    - "Ramanan, Deva"
+    - "Dollár, Piotr"
+    - "Zitnick, C. Lawrence"
+  date: 2014
+  parent:
+    type: Proceedings
+    title: "European Conference on Computer Vision (ECCV)"
+
+ranjan2021fsc147:
+  type: Article
+  title: "Learning To Count Everything"
+  author:
+    - "Ranjan, Viresh"
+    - "Sharma, Udbhav"
+    - "Nguyen, Thu"
+    - "Hoai, Minh"
+  date: 2021
+  parent:
+    type: Proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"

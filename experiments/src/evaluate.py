@@ -54,11 +54,15 @@ def best_f1(scored_preds, gts, iou_thr=0.5, step=0.01):
     best = (0.0, 0.0)
     for k in range(int(round(1 / step)) + 1):
         t = k * step
-        kept = [[b for b, s in img if s >= t] for img in scored_preds]
-        f = box_metrics(kept, gts, iou_thr)[2]
+        f = box_metrics(apply_threshold(scored_preds, t), gts, iou_thr)[2]
         if f > best[0]:
             best = (f, t)
     return best
+
+
+def apply_threshold(scored_preds, t):
+    """Keep the boxes whose score is at least t. Returns one box list per image."""
+    return [[b for b, s in img if s >= t] for img in scored_preds]
 
 
 def presence_metrics(y_true, y_pred):
