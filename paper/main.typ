@@ -251,8 +251,38 @@ The code is in the repository (folder `experiments`). The VLM runs through the R
 
 = Results <sec:results>
 // [budget] 1.40 p (~550 words + Tab. 3 ~0.3 p + Fig. 1 ~0.5 p)
-// Tab. 3: model x tasks x reliability criteria; Fig. 1: qualitative examples and failure cases
-#todo[Present the VLM and specialist comparison by task and illustrative errors.]
+// Tab. 2: VLM vs specialist by task; Fig. 1: qualitative examples and failure cases (todo)
+All numbers come from one run on the test part of the 500 POPE images, which is 400 images. The other 100 images set the thresholds of the specialists. Presence has 2,400 questions per POPE setting. Localization and counting share 4,473 queries, and 2,897 of them (65%) ask about a class that is absent from the image.
+
+*Presence.* The VLM is more accurate than SigLIP 2 in all three settings (@tab:results): 93.3%, 87.9%, and 83.5% against 81.9%, 81.4%, and 76.3%. Both models lose accuracy from the random to the adversarial setting, as in the original POPE results @li2023pope. The two models fail in opposite ways. The VLM finds 92.7% of the present objects in every setting, but its precision falls from 93.8% to 78.3% and its share of "yes" answers rises from 49.4% to 59.2%. SigLIP 2 is cautious: its share of "yes" is 37% to 41%, its recall is 67% to 69%, and its precision stays between 82% and 93%. The tuned thresholds are small (about $4 times 10^(-6)$), so its raw scores cannot be read as probabilities.
+
+*Localization.* YOLO-World has a higher F1 than the VLM, 56.6% against 49.2% at IoU 0.5. The VLM finds more objects (recall 61.4% against 49.2%) but with many more wrong boxes (precision 41.0% against 66.7%). The VLM returned no box for 50.7% of the queries, which is 2,266 of 4,473. Since 2,897 queries have no object, at least 631 of them (22% of the negatives) received a box.
+
+*Counting.* On all queries, the VLM has a higher exact-match accuracy than CountGD++ (80.0% against 73.8%) and a lower error (MAE 0.41 against 1.08, RMSE 1.38 against 7.13). This average is dominated by the 65% of queries with a count of zero. By true count, the VLM is exact for 90.3% of the zero counts and 71.1% of the counts from 1 to 3, but only for 9.6% from 4 to 9 and 7.1% from 10 up, where its MAE grows from 0.11 to 6.62. Earlier counting studies also report this drop for larger counts @tamarapalli2025countqa @rong2026unicbench. The RMSE of CountGD++ is five times that of the VLM while its MAE is 2.6 times larger, so a few large errors probably dominate it. We cannot locate them, because the results of CountGD++ by true count are not available yet.
+
+*Limits.* These results come from a single run with one VLM, Qwen3.8-27B in its 4-bit Ollama version @qwen38card, with no confidence intervals. VLM boxes have no score, so the VLM has one operating point, while YOLO-World was set to its best F1 on the tuning part. The threshold of CountGD++ is the 0.23 of its authors @amini2025countgdpp. All images are COCO photographs of common objects, so the results say nothing about other domains. We did not measure prompt robustness, the false-positive rate for each task, or calibration. #todo[Fig. 1: qualitative examples and failure cases.]
+
+#figure(
+  {
+    set text(size: 7.5pt)
+    table(
+      columns: (auto, auto, auto, 1fr, 1fr),
+      inset: (x: 2pt, y: 2pt),
+      align: (left, left, left, right, right),
+      table.header[*Task*][*Setting*][*Metric (%)*][*VLM*][*Specialist*],
+      [Presence], [random], [acc. / F1], [93.3 / 93.2], [81.9 / 79.3],
+      [Presence], [popular], [acc. / F1], [87.9 / 88.4], [81.4 / 78.6],
+      [Presence], [adversarial], [acc. / F1], [83.5 / 84.9], [76.3 / 73.9],
+      [Localization], [IoU 0.5], [P / R / F1], [41.0 / 61.4 / 49.2], [66.7 / 49.2 / 56.6],
+      [Counting], [all queries], [exact / MAE], [80.0 / 0.41], [73.8 / 1.08],
+      [Counting], [true count 0], [exact / MAE], [90.3 / 0.11], [n/a],
+      [Counting], [true count 1-3], [exact / MAE], [71.1 / 0.34], [n/a],
+      [Counting], [true count 4-9], [exact / MAE], [9.6 / 3.02], [n/a],
+      [Counting], [true count 10+], [exact / MAE], [7.1 / 6.62], [n/a],
+    )
+  },
+  caption: [VLM (Qwen3.8-27B) and specialist (SigLIP 2, YOLO-World, CountGD++) on the test part of the POPE images. MAE is in counts, not in %. n/a: not computed yet.],
+) <tab:results>
 
 = Discussion <sec:discussion>
 // [budget] 0.80 p (~700 words)
