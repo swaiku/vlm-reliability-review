@@ -222,7 +222,7 @@ Specialist counters give a reference. CountGD repurposes Grounding DINO to count
   ) <tab:comparisons>
 ]
 
-The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Localization is the weakest case: independent comparisons with detectors are few, and most use closed or older models (@tab:comparisons). Across the three tasks, we found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on boxes or counts, or reports the confidence of generated boxes. These gaps are the points that our experiment addresses.
+The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Localization is the weakest case: independent comparisons with detectors are few, and most use closed or older models (@tab:comparisons). Across the three tasks, we found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on boxes or counts, or reports the confidence of generated boxes. Our experiment addresses the first of these gaps, for one recent open VLM. It does not address the other two.
 
 = Methods <sec:methods>
 #todo[Describe the shared protocol for comparing one VLM with one specialized model per task.]
