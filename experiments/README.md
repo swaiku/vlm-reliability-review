@@ -6,11 +6,11 @@ One VLM (served by Ollama) against one specialist per task, on existing benchmar
 |---|---|---|
 | Presence | yes/no | SigLIP 2 score, threshold tuned on a `tune` split |
 | Localization | boxes in text, no score | YOLO-World (or Grounding DINO, `localization_specialist` in the config), best-F1 threshold (Rex-Omni protocol) |
-| Counting | number | CountGD (wrapper not written yet) |
+| Counting | number | CountGD++ (text only, confidence threshold 0.23 of the authors' demo) |
 
 ## Status
 
-Written without a GPU: `python3 -m tests.test_evaluate` (`just test`) checks the metrics and parsers. `src/run.py`, the Ollama call and the specialist wrappers have **not been run**. First checks on the GPU machine: Ollama uses the GPU, the box format of the chosen VLM (`box_format` in the config), the `post_process_grounded_object_detection` argument names, and whether CountGD builds under ROCm.
+Run on an AMD RX 7900 XTX (ROCm, PyTorch 2.15+rocm10.0). `just test` checks the metrics, parsers and converter. Checked on the GPU: Ollama (`ollama/ollama:rocm` container; the Homebrew build is CPU only), the VLM box format (`norm1000` for qwen3.8), YOLO-World, SigLIP 2, and a 10-image end-to-end run. Not converted yet: Roboflow100-VL and FSC-147.
 
 ## Setup
 
@@ -20,7 +20,13 @@ Requires [uv](https://docs.astral.sh/uv/) and a running Ollama server with the V
 just setup   # or: cd experiments && uv sync
 ```
 
-No lock file is committed yet: run `uv lock` on the GPU machine. `uv sync` installs the default PyTorch build; for the AMD GPU, install the ROCm build instead (index `https://download.pytorch.org/whl/rocm7.2`).
+`pyproject.toml` takes torch and the ROCm runtime from the PyTorch ROCm index (Linux x86_64 only). `transformers` stays below 4.50 for CountGD++.
+
+CountGD++ code and weights (896 MB, not versioned):
+
+```bash
+uv run python -c "from huggingface_hub import snapshot_download; snapshot_download('nikigoli/CountGDPlusPlus', revision='06bd674ecd2d18ea55ec0dd9183fa24603dfa7e1', local_dir='third_party/countgdpp')"
+```
 
 ## Data
 
@@ -30,9 +36,9 @@ Not versioned. One JSONL file per task in `data/` (row format in `src/run.py`), 
 |---|---|---|
 | Main | The 500 COCO val images of POPE (3 settings, 6 questions per image) | presence (POPE questions); localization and counting from the COCO annotations of the same images, crowd regions excluded; absent POPE classes give negative queries (no box, count 0) |
 | Out-of-domain localization | Subset of Roboflow100-VL | localization |
-| Out-of-domain counting | FSC-147 test split | counting (CountGD was trained on FSC-147 train: caveat) |
+| Out-of-domain counting | FSC-147 test split | counting (CountGD++ was trained on FSC-147 train: caveat) |
 
-The converters that build these JSONL files are not written yet.
+`python -m src.convert` builds the main-set files (POPE questions from `data/pope/`, COCO val2014 annotations from `data/coco/instances_val2014.json`) and downloads the 500 images. The out-of-domain converters are not written yet.
 
 ## Run
 
@@ -40,7 +46,7 @@ The converters that build these JSONL files are not written yet.
 just eval --config configs/default.yaml
 ```
 
-Metrics go to `results/metrics.csv` and `results/<task>.json`.
+Metrics go to `results/metrics.csv` and `results/<task>.json`. Each VLM answer is appended to `results/predictions/vlm_answers.jsonl` as it arrives: stop with Ctrl+C at any time and rerun the same command to resume. A task whose `results/<task>.json` exists is skipped (specialist outputs are not cached, so a finished task would otherwise be recomputed). Delete those files and the answer cache to start over (for example after changing a prompt or the data).
 
 ## Reproducibility
 

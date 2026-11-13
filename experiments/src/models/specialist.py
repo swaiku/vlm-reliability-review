@@ -1,8 +1,6 @@
-"""One specialist per task: SigLIP 2 (presence), YOLO-World or Grounding DINO (localization), CountGD (counting).
+"""One specialist per task: SigLIP 2 (presence), YOLO-World or Grounding DINO (localization), CountGD++ (counting).
 
-Loaded lazily so the metrics and parsers work without torch. Not run yet: the GPU machine
-is not available, so check the post-processing argument names against the installed
-transformers version.
+Loaded lazily so the metrics and parsers work without torch.
 """
 
 from PIL import Image
@@ -71,11 +69,26 @@ class YoloWorld:
         return [(tuple(b.tolist()), s.item()) for b, s in zip(res.boxes.xyxy, res.boxes.conf)]
 
 
-class CountGD:
-    """Official repo: https://github.com/niki-amini-naieni/CountGD (needs compiled deformable-attention ops).
+class CountGDPlusPlus:
+    """Count = number of boxes above the confidence threshold, text prompt only, no exemplar.
 
-    Not wrapped yet: check first that it builds under ROCm (see README).
+    Code and weights: Hugging Face model nikigoli/CountGDPlusPlus (see README), loaded from
+    third_party/countgdpp. Without the compiled deformable-attention op (it does not build under
+    ROCm), the model uses its own pure-PyTorch version: slower, same maths.
+    shortcut: the whole image is resized to 800 px like the authors' count() helper, without the
+    paper's adaptive cropping and pseudo-exemplars; counts on very dense images may be lower.
     """
 
+    def __init__(self, root="third_party/countgdpp", device="cuda", conf_thresh=0.23):
+        import sys
+        from pathlib import Path
+
+        root = str(Path(root).resolve())
+        sys.path.insert(0, root)
+        from countgdpp import CountGDPlusPlus as Model, count
+
+        self.model = Model.from_pretrained(root).to(device).eval()
+        self._count, self.conf_thresh = count, conf_thresh
+
     def count(self, image_path, label):
-        raise NotImplementedError("wrap the official CountGD inference script here")
+        return self._count(self.model, image_path, label, conf_thresh=self.conf_thresh)["count"]

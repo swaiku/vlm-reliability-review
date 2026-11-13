@@ -28,4 +28,21 @@ assert vlm.parse_yes_no("Maybe") is None
 assert vlm.parse_count("There are 12 cars") == 12 and vlm.parse_count("none") is None
 assert vlm.parse_boxes('[{"bbox_2d": [100, 200, 500, 600]}]', (1000, 2000), "norm1000") == [(100.0, 400.0, 500.0, 1200.0)]
 assert vlm.parse_boxes("[]", (10, 10)) == [] and vlm.parse_boxes("no box", (10, 10)) == []
+# converter: crowd boxes dropped, COCO xywh -> xyxy, POPE "no" classes become empty targets
+from pathlib import Path
+from src import convert
+
+coco = {"categories": [{"id": 1, "name": "dog"}, {"id": 2, "name": "cat"}, {"id": 3, "name": "car"}],
+        "images": [{"id": 7, "file_name": "a.jpg"}],
+        "annotations": [{"image_id": 7, "category_id": 1, "bbox": [1, 2, 3, 4], "iscrowd": 0},
+                        {"image_id": 7, "category_id": 1, "bbox": [0, 0, 9, 9], "iscrowd": 1},
+                        {"image_id": 7, "category_id": 2, "bbox": [5, 5, 1, 1], "iscrowd": 0}]}
+qs = [{"image": "a.jpg", "text": "Is there a dog in the image?", "label": "yes"},
+      {"image": "a.jpg", "text": "Is there a car in the image?", "label": "no"}]
+out = convert.build({s: qs for s in convert.SETTINGS}, coco, Path("img"), 0.0, 0)
+assert len(out["presence"]) == 6 and {r["setting"] for r in out["presence"]} == set(convert.SETTINGS)
+loc = {r["label"]: r for r in out["localization"]}
+assert loc["dog"]["boxes"] == [[1, 2, 4, 6]] and loc["dog"]["count"] == 1
+assert loc["cat"]["present"] and loc["car"] == {**loc["car"], "boxes": [], "count": 0, "present": False}
+assert all(r["split"] == "test" and r["image"] == str(Path("img/a.jpg")) for r in out["counting"])
 print("ok")

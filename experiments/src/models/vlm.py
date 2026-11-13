@@ -4,10 +4,38 @@ import base64
 import json
 import re
 import urllib.request
+from pathlib import Path
+
+# Every answer is appended here as soon as it arrives, so an interrupted run resumes where it
+# stopped, and a question repeated across the POPE settings is asked once (answers are deterministic).
+CACHE_FILE = Path("results/predictions/vlm_answers.jsonl")
+_cache = None
 
 
 def ask(model, image_path, prompt, host="http://localhost:11434", think=False, num_ctx=4096, seed=0):
     """One deterministic question about one image. Returns the answer text."""
+    global _cache
+    key = json.dumps([model, str(image_path), prompt, think, num_ctx, seed])
+    if _cache is None:
+        lines = CACHE_FILE.read_text().splitlines() if CACHE_FILE.exists() else []
+        # a line cut by Ctrl+C is not valid JSON: skip it, that question is asked again
+        _cache = {}
+        for line in lines:
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            _cache[row["key"]] = row["answer"]
+    if key not in _cache:
+        _cache[key] = _ask(model, image_path, prompt, host, think, num_ctx, seed)
+        CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(CACHE_FILE, "a") as f:
+            # leading newline: a record never glues onto a line cut by an earlier Ctrl+C
+            f.write("\n" + json.dumps({"key": key, "answer": _cache[key]}))
+    return _cache[key]
+
+
+def _ask(model, image_path, prompt, host, think, num_ctx, seed):
     with open(image_path, "rb") as f:
         img = base64.b64encode(f.read()).decode()
     body = {

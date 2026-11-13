@@ -1,8 +1,8 @@
 # One VLM against one specialist per task. Fill in the data paths once the benchmarks are chosen.
 vlm:
-  model: lfm3-vl:2b   # to decide: qwen3.8:27b, gemma4:12b, ...; pin the exact tag and note the quantization
+  model: qwen3.8:27b  # Ollama Q4 tag (18 GB), served by the ollama:rocm container
   think: false        # same setting for every run
-  box_format: pixels  # pixels | norm1000 | norm1; check on one image with a known box
+  box_format: norm1000  # checked on ultralytics bus.jpg: qwen3.8 boxes match YOLO-World at IoU 0.77-0.98
 localization_specialist: yolo_world   # or grounding_dino
 iou_threshold: 0.5
 data:                 # JSONL files, see src/run.py for the row format
