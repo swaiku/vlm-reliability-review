@@ -2,7 +2,7 @@
 
 ## Papier
 - Review : `review/search-log.md` à mettre à jour (voir plus bas) pour que l'ouverture reste exacte.
-- Résumé, Discussion, Conclusion (`#todo`). La Discussion doit relier les résultats aux trois propriétés du Background (exactitude, stabilité, calibration) et dire ce qui n'est pas mesuré.
+- Résumé (`#todo`).
 - Figure 1 de Results : exemples qualitatifs et erreurs (optionnelle, `#todo` dans le texte).
 - Results : comptage par taille pour CountGD++ (colonne « n/a » du tableau 2), au prochain run.
 - Mesurer les pages avec la vraie mise en page : installer les polices TeX Gyre (non installées ici).
