@@ -292,3 +292,6 @@ All numbers come from one run on the test part of the 500 POPE images, which is 
 = Conclusion <sec:conclusion>
 // [budget] 0.35 p (~300 words)
 #todo[Answer the research question and outline future work.]
+
+#heading(numbering: none)[Statement on the Use of AI]
+Both authors used Claude (Anthropic) in preparing this paper. One author used it through Claude Code with the Academic Research Skills plugin (version 3.23.1) and the alphaXiv tool, in October and November 2026, to search and summarize the literature, to draft and revise the text of the Review, Methods and Results sections, to write all the experiment code and the Typst formatting, to compute derived figures from the result files, and to check the bibliography against arXiv. The authors then reviewed the text produced with AI and take full responsibility for the content of the paper. The AI tools are not authors of this paper.
