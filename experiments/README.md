@@ -4,9 +4,9 @@ One VLM (served by Ollama) against one specialist per task, on existing benchmar
 
 | Task | VLM output | Specialist |
 |---|---|---|
-| Presence | yes/no | SigLIP 2 score, threshold tuned on a `tune` split |
+| Presence | yes/no | SigLIP 2 score, threshold tuned on a `tune` split; also the localization specialist's best box score (`detector`) |
 | Localization | boxes in text, no score | YOLO-World (or Grounding DINO, `localization_specialist` in the config), best-F1 threshold (Rex-Omni protocol) |
-| Counting | number | CountGD++ (text only, confidence threshold 0.23 of the authors' demo) |
+| Counting | number | CountGD++ (text only), confidence threshold tuned on `tune` (lowest MAE); `specialist_demo` uses the authors' 0.23 |
 
 ## Status
 
@@ -44,7 +44,7 @@ Not versioned. One JSONL file per task in `data/` (row format in `src/run.py`), 
 just eval --config configs/default.yaml
 ```
 
-Metrics go to `results/metrics.csv` and `results/<task>.json`. Each VLM answer is appended to `results/predictions/vlm_answers.jsonl` as it arrives: stop with Ctrl+C at any time and rerun the same command to resume. A task whose `results/<task>.json` exists is skipped (specialist outputs are not cached, so a finished task would otherwise be recomputed). Delete those files and the answer cache to start over (for example after changing a prompt or the data).
+Metrics go to `results/metrics.csv` and `results/<task>.json`. Every model output is appended as it arrives, VLM answers to `results/predictions/vlm_answers.jsonl` and raw specialist outputs (scores, boxes with scores, before any threshold) to `results/predictions/specialist_outputs.jsonl`: stop with Ctrl+C at any time and rerun the same command to resume. Once both files are complete, a rerun recomputes every metric in minutes, and loads no model. Per-query counts go to `results/predictions/counting.jsonl`. Then `python -m src.bootstrap --config configs/default.yaml` writes 95% intervals by bootstrap over test images to `results/bootstrap.json`, from the caches only. Delete the caches to start over (for example after changing a prompt or the data).
 
 ## Reproducibility
 

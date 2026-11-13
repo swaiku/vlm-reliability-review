@@ -1,9 +1,8 @@
-# Reste à faire (2026-11-13)
+# Reste à faire (2026-11-13, après le run des spécialistes)
 
 ## Papier
 - Review : `review/search-log.md` à mettre à jour (voir plus bas) pour que l'ouverture reste exacte.
 - Figure 1 de Results : exemples qualitatifs et erreurs (optionnelle, `#todo` dans le texte).
-- Results : comptage par taille pour CountGD++ (colonne « n/a » du tableau 2), au prochain run.
 - Mesurer les pages avec la vraie mise en page : installer les polices TeX Gyre (non installées ici).
 - Prévenir Raul : `origin/raul` est toujours à `d37caf5`. Il doit fusionner `jeremy`, qui contient sa version du Background plus la Review, Methods et Results.
 
@@ -16,18 +15,13 @@
 - Section Domain shift : la phrase sur Roboflow100-VL (« même effet »).
 
 ## Optionnel (code)
-- Robustesse au prompt (les 4 formulations de POPE) et taux de faux positifs par tâche. Non mesurés : ils sont signalés comme limites dans Results.
-
-## Git
-- Non commités : Methods complétée, retrait des jeux hors domaine, README, ce fichier. Rien de poussé depuis le run (`343c7db`).
+- Robustesse au prompt (les 4 formulations de POPE). Non mesurée : signalée comme limite dans Results.
 
 ## Important pour la fiabilité et la solidité (issu de la relecture simulée du 13 nov.)
-À faire, par ordre de priorité. Les trois premiers n'ont pas besoin de nouveau run : les prédictions par requête sont dans `results/predictions/` sur la machine du run.
-1. **Comptage de CountGD++ par taille de compte** (0, 1-3, 4-9, 10+), depuis `results/predictions/counting.jsonl`. Sans cela, la colonne « n/a » du tableau reste, et on ne sait pas où est son RMSE élevé. Mettre à jour résumé, Discussion et Conclusion après coup.
-2. **Intervalles de confiance à 95 %** par bootstrap sur les 400 images de test (présence, F1 de localisation, MAE de comptage), depuis les réponses VLM sauvegardées. Dire si les écarts (surtout 7 points de F1 en localisation) sont significatifs.
-3. **Résultats séparés sur les requêtes positives et négatives** en localisation (précision, rappel), pour voir d'où viennent les faux positifs du VLM. Même chose pour le comptage du spécialiste.
-4. **Base de présence avec YOLO-World** : la présence se déduit des détections déjà calculées (un objet est présent si au moins une boîte dépasse le seuil). C'est le spécialiste naturel selon le Background. Comparer à SigLIP 2 ou justifier ce choix.
-5. **Seuil de CountGD++ réglé sur « tune »** comme les deux autres spécialistes, ou noter l'asymétrie dans Methods.
+Fait le 13 nov. (run des spécialistes, résultats dans le papier) : comptage de CountGD++ par taille, intervalles à 95 % par bootstrap (`src/bootstrap.py`, tous les écarts sont significatifs), positifs / négatifs en localisation, présence avec YOLO-World, seuil de CountGD++ réglé sur tune (0,35). Toutes les sorties sont en cache : les métriques se recalculent sans GPU.
+Nouveau point à garder en tête : sur COCO, les comptes de 10 et plus sont peu fiables (43 des 84 requêtes ont une région « crowd » non comptée), signalé dans Results et Discussion.
+
+Reste à faire, par ordre de priorité :
 6. **Robustesse au prompt** : les 4 formulations de POPE pour la présence, 2 ou 3 variantes pour la localisation et le comptage. C'est une des trois propriétés de fiabilité du Background, aujourd'hui non mesurée.
 7. **Calibration / confiance** : proposer une confiance au VLM (probabilités des jetons « yes » et « no » si Ollama les expose, ou scores SigLIP 2 sur les boîtes) et mesurer l'ECE. Troisième propriété du Background, non mesurée.
 8. **Contrôle avec image vide** (présence) pour voir si la réponse dépend de l'image (Lan et al.).
