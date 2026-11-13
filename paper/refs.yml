@@ -248,7 +248,7 @@ liu2023groundingdino:
     - "Su, Hang"
     - "Zhu, Jun"
     - "Zhang, Lei"
-  date: 2023
+  date: 2024
   parent:
     type: Proceedings
     title: "Proceedings of the European Conference on Computer Vision (ECCV)"
@@ -510,7 +510,7 @@ villa2023merlim:
     - "Alcázar, Juan Carlos León"
     - "Soto, Alvaro"
     - "Ghanem, Bernard"
-  date: 2023
+  date: 2025
   parent:
     type: Proceedings
     title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)"
@@ -637,7 +637,7 @@ peng2023kosmos2:
     - "Huang, Shaohan"
     - "Ma, Shuming"
     - "Wei, Furu"
-  date: 2023
+  date: 2024
   parent:
     type: Proceedings
     title: "International Conference on Learning Representations (ICLR)"
