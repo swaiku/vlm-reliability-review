@@ -1,27 +1,25 @@
-# Reste à faire (2026-11-11)
-
-## Choix à faire
-- Le VLM (`lfm3-vl:2b` provisoire, sinon Qwen3.8 27b ou Gemma 4), son étiquette Ollama et sa quantification.
-- Où écrire les critères de fiabilité : ouverture de la Review ou Background.
+# Reste à faire (2026-11-13)
 
 ## Papier
-- Ouverture de la Review, Results (tableau 3 et figure 1), Discussion, Conclusion, résumé.
-- Remplir les `#todo` de Methods : tailles des sous-ensembles, versions, matériel, dates.
-- Citer dans Methods > Models les sources déjà dans `refs.yml` : Gemma 3, fiches Qwen3.5, 3.6 et 3.8.
-- Mettre à jour `review/feedback-and-gaps.md` avec HoloCount et PVFH-Bench.
-- Installer les polices TeX Gyre pour mesurer les pages avec la vraie mise en page.
-- Prévenir Raul de la fusion, et reformuler avec lui les phrases de son Background sur « les modèles que nous comparons ».
+- Ouverture de la Review (`#todo`) : décrire la démarche. Elle doit s'appuyer sur `review/search-log.md`, à mettre à jour d'abord (voir plus bas).
+- Résumé, Discussion, Conclusion (`#todo`). La Discussion doit relier les résultats aux trois propriétés du Background (exactitude, stabilité, calibration) et dire ce qui n'est pas mesuré.
+- Figure 1 de Results : exemples qualitatifs et erreurs (optionnelle, `#todo` dans le texte).
+- Methods : version d'Ollama et date exacte du run (`#todo`).
+- Results : comptage par taille pour CountGD++ (colonne « n/a » du tableau 2), au prochain run.
+- Mesurer les pages avec la vraie mise en page : installer les polices TeX Gyre (non installées ici).
+- Prévenir Raul : `origin/raul` est toujours à `d37caf5`. Il doit fusionner `jeremy`, qui contient sa version du Background plus la Review, Methods et Results.
+
+## Notes de revue à mettre à jour
+- `review/search-log.md` et `review/sources.md` : ajouter les sources et recherches faites depuis le 9 novembre (HoloCount, PVFH-Bench, article de robustesse des détecteurs, deux recherches étendues). Le journal dit encore que HoloCount n'a pas été gardé, et le décompte (31 sources) ne correspond plus aux 43 entrées de `refs.yml`.
+- `review/feedback-and-gaps.md` : optionnel, les informations sont dans le papier.
 
 ## À vérifier
 - Tableau 1 : la colonne « Données » de Ramachandran, et l'attribution de Füzesséry (les 8,13 de MAE sur CARPK sont « RCC » chez lui, « CounTX » chez CountGD).
-- Phrase de la section Domain shift (« même effet » pour Roboflow100-VL), chiffre de Sclar (76 points), mention « tous les VLM datent de 2025 ou avant ».
+- Section Domain shift : la phrase sur Roboflow100-VL (« même effet »).
+- Légende du tableau 1 : « tous les VLM datent de 2025 ou avant ».
 
-## Code (`experiments/`)
-- Convertisseurs qui fabriquent les JSONL : POPE, annotations COCO, Roboflow100-VL, FSC-147.
-- Robustesse au prompt (les 4 formulations de POPE) et taux de faux positifs sur les requêtes négatives.
-- Wrapper CountGD, qui peut ne pas compiler sous ROCm.
-- Test de fumée sur la bonne machine : Ollama utilise le GPU, format des boîtes du VLM, API de YOLO-World et de SigLIP 2.
-- `uv lock` sur la machine GPU, puis installation de PyTorch ROCm.
+## Optionnel (code)
+- Robustesse au prompt (les 4 formulations de POPE) et taux de faux positifs par tâche. Non mesurés : ils sont signalés comme limites dans Results.
 
-## À ne pas pousser
-- `review/notes/dataset-draft.md` reste hors du dépôt.
+## Git
+- Non commités : Methods complétée, retrait des jeux hors domaine, README, ce fichier. Rien de poussé depuis le run (`343c7db`).

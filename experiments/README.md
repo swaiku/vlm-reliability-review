@@ -10,7 +10,7 @@ One VLM (served by Ollama) against one specialist per task, on existing benchmar
 
 ## Status
 
-Run on an AMD RX 7900 XTX (ROCm, PyTorch 2.15+rocm10.0). `just test` checks the metrics, parsers and converter. Checked on the GPU: Ollama (`ollama/ollama:rocm` container; the Homebrew build is CPU only), the VLM box format (`norm1000` for qwen3.8), YOLO-World, SigLIP 2, and a 10-image end-to-end run. Not converted yet: Roboflow100-VL and FSC-147.
+Run on an AMD RX 7900 XTX (ROCm, PyTorch 2.15+rocm10.0). `just test` checks the metrics, parsers and converter. Checked on the GPU: Ollama (`ollama/ollama:rocm` container; the Homebrew build is CPU only), the VLM box format (`norm1000` for qwen3.8), YOLO-World, SigLIP 2, and a 10-image end-to-end run. Out-of-domain sets (Roboflow100-VL, FSC-147) were dropped from the study.
 
 ## Setup
 
@@ -35,10 +35,8 @@ Not versioned. One JSONL file per task in `data/` (row format in `src/run.py`), 
 | Set | Source | Used for |
 |---|---|---|
 | Main | The 500 COCO val images of POPE (3 settings, 6 questions per image) | presence (POPE questions); localization and counting from the COCO annotations of the same images, crowd regions excluded; absent POPE classes give negative queries (no box, count 0) |
-| Out-of-domain localization | Subset of Roboflow100-VL | localization |
-| Out-of-domain counting | FSC-147 test split | counting (CountGD++ was trained on FSC-147 train: caveat) |
 
-`python -m src.convert` builds the main-set files (POPE questions from `data/pope/`, COCO val2014 annotations from `data/coco/instances_val2014.json`) and downloads the 500 images. The out-of-domain converters are not written yet.
+`python -m src.convert` builds the main-set files (POPE questions from `data/pope/`, COCO val2014 annotations from `data/coco/instances_val2014.json`) and downloads the 500 images.
 
 ## Run
 
