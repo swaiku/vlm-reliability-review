@@ -1,4 +1,4 @@
-# Bibliography in Hayagriva format (52 sources).
+# Bibliography in Hayagriva format (43 sources).
 # Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23 and 2026-10-26).
 # Venues come from the arXiv comment field or conference pages. Author names were
 # split into 'Last, First' by a heuristic: check names with particles when proofreading.
@@ -82,25 +82,6 @@ bai2024survey:
     arxiv: "2404.18930"
   url: https://arxiv.org/abs/2404.18930
 
-paiss2023countbench:
-  type: Article
-  title: "Teaching CLIP to Count to Ten"
-  author:
-    - "Paiss, Roni"
-    - "Ephrat, Ariel"
-    - "Tov, Omer"
-    - "Zada, Shiran"
-    - "Mosseri, Inbar"
-    - "Irani, Michal"
-    - "Dekel, Tali"
-  date: 2023
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)"
-  serial-number:
-    arxiv: "2302.12066"
-  url: https://arxiv.org/abs/2302.12066
-
 tamarapalli2025countqa:
   type: Article
   title: "CountQA: How Well Do MLLMs Count in the Wild?"
@@ -130,44 +111,6 @@ fuzesseery2025counting:
     arxiv: "2512.03233"
   url: https://arxiv.org/abs/2512.03233
 
-rahmanzadehgervi2024blind:
-  type: Article
-  title: "Vision language models are blind: Failing to translate detailed visual features into words"
-  author:
-    - "Rahmanzadehgervi, Pooyan"
-    - "Bolton, Logan"
-    - "Taesiri, Mohammad Reza"
-    - "Nguyen, Anh Totti"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the Asian Conference on Computer Vision (ACCV)"
-  serial-number:
-    arxiv: "2407.06581"
-  url: https://arxiv.org/abs/2407.06581
-
-fu2024blink:
-  type: Article
-  title: "BLINK: Multimodal Large Language Models Can See but Not Perceive"
-  author:
-    - "Fu, Xingyu"
-    - "Hu, Yushi"
-    - "Li, Bangzheng"
-    - "Feng, Yu"
-    - "Wang, Haoyu"
-    - "Lin, Xudong"
-    - "Roth, Dan"
-    - "Smith, Noah A."
-    - "Ma, Wei-Chiu"
-    - "Krishna, Ranjay"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the European Conference on Computer Vision (ECCV)"
-  serial-number:
-    arxiv: "2404.12390"
-  url: https://arxiv.org/abs/2404.12390
-
 zhang2024classification:
   type: Article
   title: "Why are Visually-Grounded Language Models Bad at Image Classification?"
@@ -186,22 +129,6 @@ zhang2024classification:
   serial-number:
     arxiv: "2405.18415"
   url: https://arxiv.org/abs/2405.18415
-
-sclar2024format:
-  type: Article
-  title: "Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How I learned to start worrying about prompt formatting"
-  author:
-    - "Sclar, Melanie"
-    - "Choi, Yejin"
-    - "Tsvetkov, Yulia"
-    - "Suhr, Alane"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "International Conference on Learning Representations (ICLR)"
-  serial-number:
-    arxiv: "2310.11324"
-  url: https://arxiv.org/abs/2310.11324
 
 liu2024mmbench:
   type: Article
@@ -552,17 +479,6 @@ rong2026unicbench:
     arxiv: "2603.00595"
   url: https://arxiv.org/abs/2603.00595
 
-owusu2026counting:
-  type: Article
-  title: "Object Counting Across Modalities: Taxonomies, Benchmarks, Applications, and Open Challenges"
-  author:
-    - "Owusu, Joana Konadu"
-    - "Sheshappanavar, Shivanand Venkanna"
-  date: 2026
-  serial-number:
-    arxiv: "2608.23845"
-  url: https://arxiv.org/abs/2608.23845
-
 tschannen2025siglip2:
   type: Article
   title: "SigLIP 2: Multilingual Vision-Language Encoders with Improved Semantic Understanding, Localization, and Dense Features"
@@ -629,16 +545,6 @@ lan2026seeing:
   serial-number:
     arxiv: "2605.22903"
   url: https://arxiv.org/abs/2605.22903
-
-qwen35card:
-  type: Web
-  title: "Qwen3.5-9B (model card)"
-  author:
-    - name: Qwen Team
-  date: 2026-02
-  url:
-    value: https://huggingface.co/Qwen/Qwen3.5-9B
-    date: 2026-10-23
 
 liu2024survey:
   type: Article
@@ -824,16 +730,6 @@ jiang2023clipcount:
     arxiv: "2305.07304"
   url: https://arxiv.org/abs/2305.07304
 
-qwen36card:
-  type: Web
-  title: "Qwen3.6-27B (model card)"
-  author:
-    - name: Qwen Team
-  date: 2026-04
-  url:
-    value: https://huggingface.co/Qwen/Qwen3.6-27B
-    date: 2026-11-11
-
 qwen38card:
   type: Web
   title: "Qwen3.8-27B (model card)"
@@ -843,16 +739,6 @@ qwen38card:
   url:
     value: https://huggingface.co/Qwen/Qwen3.8-27B
     date: 2026-11-11
-
-gemma2025gemma3:
-  type: Article
-  title: "Gemma 3 Technical Report"
-  author:
-    - name: Gemma Team
-  date: 2025
-  serial-number:
-    arxiv: "2503.19786"
-  url: https://arxiv.org/abs/2503.19786
 
 deng2026holocount:
   type: Article
@@ -913,15 +799,3 @@ lin2014coco:
     type: Proceedings
     title: "European Conference on Computer Vision (ECCV)"
 
-ranjan2021fsc147:
-  type: Article
-  title: "Learning To Count Everything"
-  author:
-    - "Ranjan, Viresh"
-    - "Sharma, Udbhav"
-    - "Nguyen, Thu"
-    - "Hoai, Minh"
-  date: 2021
-  parent:
-    type: Proceedings
-    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
