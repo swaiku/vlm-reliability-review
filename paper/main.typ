@@ -117,7 +117,7 @@ Finally, a reliable system must also be able to say that an object is not there,
 // [budget] 2.25 p (~1500 words text + Tab. 1 ~0.5 p). Review = core of the paper.
 // Sub-budgets below sum to 1.75 p text + 0.5 p table. Method and limits of the search: review/search-log.md.
 // Opening paragraph ~0.10 p
-#todo[Explain the review approach and summarize the evidence across the three tasks.]
+This review is narrative, not systematic. With the help of an AI assistant, we found the studies through web searches and direct lookups of arXiv and conference pages between October and November 2026, starting from well-known works. We kept a study when it measures one of the three tasks, a specialized model for one of them, or a factor that affects reliability. Some studies were read in full and others only at the level of the abstract. We first review the evidence for object presence, localization, and counting, then the factors that cut across them: prompt wording, confidence, and domain shift.
 
 == Object Presence
 // [budget] 0.35 p
