@@ -8,9 +8,9 @@
 //  Section                          Pages  ~Words  Floats
 //  Title block + Abstract + Intro    1.00    500   title block ~0.4 p
 //  2 Background                      0.75    650   -
-//  3 Review (reliability of VLMs)    2.25   1500   Tab. 1 benchmarks, full width (~0.5 p)
-//  4 Methods                         1.15    800   Tab. 2 tasks and models (~0.25 p)
-//  5 Results                         1.40    550   Tab. 3 main results (~0.3 p), Fig. 1 qualitative (~0.5 p)
+//  3 Review (reliability of VLMs)    2.25   1500   -
+//  4 Methods                         1.15    800   -
+//  5 Results                         1.40    550   Tab. 1 main results (~0.3 p), Fig. 1 qualitative (~0.5 p)
 //  6 Discussion                      0.80    700   -
 //  7 Conclusion                      0.35    300   -
 //  Slack (float placement)           0.30
@@ -71,7 +71,7 @@ To what extent are VLMs reliable for visual information extraction (object prese
 
 == Contributions
 // [budget] 3 bullets, 1 line each. Contribution wording is yours to write.
-- A narrative review of previous studies on VLM reliability for object presence, localization, and counting, with a table of the studies that compare a VLM with a specialized model.
+- A narrative review of previous studies on VLM reliability for object presence, localization, and counting.
 - An experiment on real-world images that compares one VLM with one specialized model for each of the three tasks.
 - An analysis of where the models make errors and which questions remain open.
 
@@ -114,7 +114,7 @@ A predicted box counts as a true positive when its IoU with a ground-truth box t
 Finally, a reliable system must also be able to say that an object is not there, which these measures capture only in part. For this reason, OmniLabel adds negative descriptions that match no object in the image @schulter2023omnilabel, and GroundingME tests whether models reject queries that cannot be grounded @li2025groundingme.
 
 = Reliability of VLMs: A Review <sec:review>
-// [budget] 2.25 p (~1500 words text + Tab. 1 ~0.5 p). Review = core of the paper.
+// [budget] 2.25 p (~1500 words text). Review = core of the paper.
 // Sub-budgets below sum to 1.75 p text + 0.5 p table. Method and limits of the search: review/search-log.md.
 // Opening paragraph ~0.10 p
 This review is narrative, not systematic. With the help of an AI assistant, we found the studies through web searches and direct lookups of arXiv and conference pages between October and November 2026, starting from well-known works. We kept a study when it measures one of the three tasks, a specialized model for one of them, or a factor that affects reliability. Some studies were read in full and others only at the level of the abstract. We first review the evidence for object presence, localization, and counting, then the factors that cut across them: prompt wording, confidence, and domain shift.
@@ -126,7 +126,7 @@ Object hallucination, where a model reports an object that is not in the image, 
 
 A correct answer does not prove that the image was used. HallusionBench pairs questions with edited images to separate language hallucination from visual illusion, and GPT-4V reaches only 31.42% question-pair accuracy @guan2024hallusionbench. MERLIM removes an object by inpainting and finds that the best models lose the most precision on the edited images, which suggests that some correct answers come from the language prior or the global context @villa2023merlim. A similar signal appears on POPE: removing 75% of the image tokens lowers accuracy by only about 3 points for two of the five open models tested, on a 300-example subset @lan2026seeing.
 
-Few studies test whether a model can refuse a query that it cannot ground. GroundingME evaluates this rejection and reports that most models do it poorly @li2025groundingme. PVFH-Bench tests recent models on 258 COCO images, with an absent object that looks like a visible one. Qwen3-VL-8B answers 98.45% of the questions about the visible object correctly, but only 80.62% for the look-alike absent object and 58.14% once a false premise is added. Gemma-3-27B-IT falls from 98.84% to 28.29% @wang2026pvfh. Most other benchmarks ask about an object anywhere in the image and evaluate 2023-era models. They do not tell whether a presence answer holds when the object is small, partly hidden or absent from a real photograph.
+Few studies test whether a model can refuse a query that it cannot ground. GroundingME evaluates this rejection and reports that most models do it poorly @li2025groundingme. PVFH-Bench tests recent models on 258 COCO images, with an absent object that looks like a visible one. Qwen3-VL-8B answers 98.45% of the questions about the visible object correctly, but only 80.62% for the look-alike absent object and 58.14% once a false premise is added. Gemma-3-27B-IT falls from 98.84% to 28.29% @wang2026pvfh. Most other benchmarks ask about an object anywhere in the image and evaluate 2023-era models. They do not tell whether a presence answer holds when the object is small, partly hidden or absent from a real photograph. We found no study that compares a VLM with a specialist on object presence. The closest evidence is for classification: GPT-4 reaches 60.6% on ImageNet, against 79.2% for the CLIP model EVA-G @zhang2024classification.
 
 == Object Localization
 // [budget] 0.40 p
@@ -159,73 +159,10 @@ Specialist counters give a reference. CountGD repurposes Grounding DINO to count
 
 == Synthesis
 // [budget] 0.20 p
-// Tab. 1 [budget] ~0.5 p, full width: VLM vs specialist comparisons found in the reviewed studies, by task.
-#place(top, float: true, scope: "parent")[
-  #set text(size: 8pt)
-  #set par(justify: false)
-  #figure(
-    table(
-      columns: (0.9fr, 1.2fr, 1.7fr, 1.2fr, 1.5fr, 2fr),
-      inset: (x: 3pt, y: 2pt),
-      align: left,
-      table.header[*Task*][*Study*][*VLM*][*Specialist*][*Data, metric*][*Direction*],
-      [Presence],
-      [Zhang et al. #cite(<zhang2024classification>) (indirect)],
-      [GPT-4],
-      [EVA-G],
-      [ImageNet, accuracy],
-      [Specialist better],
-
-      [Localization],
-      [Ramachandran et al. #cite(<ramachandran2026gpt4o>)],
-      [GPT-4o],
-      [Co-DETR],
-      [CV tasks, AP50],
-      [Specialist better, prompt-dependent],
-
-      [Localization],
-      [DetToolChain #cite(<wu2024dettoolchain>)],
-      [GPT-4V, Gemini],
-      [CORA],
-      [COCO novel, AP50],
-      [VLM better, dedicated prompting],
-
-      [Localization],
-      [Rex-Omni #cite(<jiang2025rexomni>) #sym.dagger],
-      [Rex-Omni, Qwen2.5-VL-7B],
-      [Grounding DINO],
-      [COCO, F1],
-      [Mixed: IoU 0.5 vs 0.95],
-
-      [Localization],
-      [RF100-VL #cite(<robicheaux2025rf100vl>)],
-      [Qwen2.5-VL, Gemini 2.5 Pro],
-      [Grounding DINO],
-      [RF100-VL, mAP],
-      [Specialist better],
-
-      [Counting],
-      [CountGD++ #cite(<amini2025countgdpp>) #sym.dagger],
-      [Gemini-2.5, Molmo],
-      [CountGD++],
-      [FSC-147, MAE],
-      [Specialist better],
-
-      [Counting],
-      [Füzesséry et al. #cite(<fuzesseery2025counting>)],
-      [GPT-4o, GPT-5],
-      [CountTX, RCC],
-      [FSC-147, CARPK, MAE],
-      [Specialist better, small gap on FSC-147],
-    ),
-    caption: [Studies that compare a VLM with a specialist model. Datasets and metrics differ, so rows cannot be compared with each other. #sym.dagger Same group as the specialist. We found no direct study for object presence. All VLMs date from 2025 or earlier.],
-  ) <tab:comparisons>
-]
-
-The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Localization is the weakest case: independent comparisons with detectors are few, and most use closed or older models (@tab:comparisons). Across the three tasks, we found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on boxes or counts, or reports the confidence of generated boxes. Our experiment addresses the first of these gaps, for one recent open VLM. It does not address the other two.
+The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Studies that compare a VLM with a specialist exist for localization and counting, and in most of them the specialist is better, but none exists for presence. Localization is the weakest case: independent comparisons with detectors are few, and most use closed or older models. Across the three tasks, we found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on boxes or counts, or reports the confidence of generated boxes. Our experiment addresses the first of these gaps, for one recent open VLM. It does not address the other two.
 
 = Methods <sec:methods>
-// [budget] 1.15 p (~800 words) + optional Tab. 2 tasks and models
+// [budget] 1.15 p (~800 words)
 We compare one VLM with one specialized model on each of the three tasks, using existing benchmark images and one run. Both models receive the same image and the same class name. Thresholds are set on a tuning part of the images and never on the test part.
 
 == Task
@@ -250,8 +187,8 @@ For presence, we report accuracy, precision, recall, F1, and the share of "yes" 
 The code is in the repository (folder `experiments`). The VLM runs locally with Ollama 0.40.16, installed directly, on an AMD RX 7900 XTX (ROCm). The specialists run with PyTorch 2.15 for ROCm, Transformers (below version 4.50, as required by CountGD++), and Ultralytics. The environment is managed with uv. The weights of CountGD++ come from a fixed revision of its Hugging Face repository. Every VLM answer is saved, so a run can be resumed and checked. The run was done on 12 November 2026.
 
 = Results <sec:results>
-// [budget] 1.40 p (~550 words + Tab. 3 ~0.3 p + Fig. 1 ~0.5 p)
-// Tab. 2: VLM vs specialist by task; Fig. 1: qualitative examples and failure cases (todo)
+// [budget] 1.40 p (~550 words + Tab. 1 ~0.3 p + Fig. 1 ~0.5 p)
+// Tab. 1: VLM vs specialist by task; Fig. 1: qualitative examples and failure cases (todo)
 All numbers come from one run on the test part of the 500 POPE images, which is 400 images. The other 100 images set the thresholds of the specialists. Presence has 2,400 questions per POPE setting. Localization and counting share 4,473 queries, and 2,897 of them (65%) ask about a class that is absent from the image.
 
 *Presence.* The VLM is more accurate than SigLIP 2 in all three settings (@tab:results): 93.3%, 87.9%, and 83.5% against 81.9%, 81.4%, and 76.3%. Both models lose accuracy from the random to the adversarial setting, as in the original POPE results @li2023pope. The two models fail in opposite ways. The VLM finds 92.7% of the present objects in every setting, but its precision falls from 93.8% to 78.3% and its share of "yes" answers rises from 49.4% to 59.2%. SigLIP 2 is cautious: its share of "yes" is 37% to 41%, its recall is 67% to 69%, and its precision stays between 82% and 93%. The tuned thresholds are small (about $4 times 10^(-6)$), so its raw scores cannot be read as probabilities.
