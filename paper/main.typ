@@ -27,7 +27,7 @@
 #show: ieee.with(
   title: [How Reliable Are Vision-Language Models for Visual Information Extraction?],
   abstract: [
-    #todo[At the end]
+    Vision-language models (VLMs) can answer questions about images, but it is unclear how far their answers can be trusted for extraction tasks such as deciding whether an object is present, locating it, and counting it. We review previous studies of these three tasks and of the factors that affect reliability. We then compare one recent VLM, Qwen3.8-27B, with one specialized model per task on 500 COCO photographs: SigLIP 2 for presence, YOLO-World for localization, and CountGD++ for counting. The review shows uneven evidence: counting is the best covered, no study compares a VLM with a specialist for presence, and recent models are rarely evaluated independently. In our experiment, the VLM is more accurate than the specialist for presence (83.5% to 93.3%, against 76.3% to 81.9%) and, on average, for counting (mean absolute error 0.41 against 1.08), while YOLO-World has the better F1 score for localization (56.6% against 49.2%). However, the VLM reports too much: it returns boxes for more than a fifth of the absent classes, it is exact for fewer than 10% of the counts of four or more, and it gives no confidence. A VLM can therefore match or beat specialists on some tasks, but it needs checks for false detections and for large counts.
   ],
   authors: (
     (
