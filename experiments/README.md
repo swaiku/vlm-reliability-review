@@ -10,7 +10,7 @@ One VLM (served by Ollama) against one specialist per task, on existing benchmar
 
 ## Status
 
-Run on an AMD RX 7900 XTX (ROCm, PyTorch 2.15+rocm10.0). `just test` checks the metrics, parsers and converter. Checked on the GPU: Ollama (`ollama/ollama:rocm` container; the Homebrew build is CPU only), the VLM box format (`norm1000` for qwen3.8), YOLO-World, SigLIP 2, and a 10-image end-to-end run. Out-of-domain sets (Roboflow100-VL, FSC-147) were dropped from the study.
+Run on an AMD RX 7900 XTX (ROCm, PyTorch 2.15+rocm10.0). `just test` checks the metrics, parsers and converter. Checked on the GPU: Ollama (native install, not the Homebrew build, which is CPU only), the VLM box format (`norm1000` for qwen3.8), YOLO-World, SigLIP 2, and a 10-image end-to-end run. Out-of-domain sets (Roboflow100-VL, FSC-147) were dropped from the study.
 
 ## Setup
 

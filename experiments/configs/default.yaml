@@ -1,6 +1,6 @@
 # One VLM against one specialist per task. Fill in the data paths once the benchmarks are chosen.
 vlm:
-  model: qwen3.8:27b  # Ollama Q4 tag (18 GB), served by the ollama:rocm container
+  model: qwen3.8:27b  # Ollama Q4 tag (18 GB), served by a native Ollama install
   think: false        # same setting for every run
   box_format: norm1000  # checked on ultralytics bus.jpg: qwen3.8 boxes match YOLO-World at IoU 0.77-0.98
 localization_specialist: yolo_world   # or grounding_dino

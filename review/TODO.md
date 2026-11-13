@@ -4,7 +4,6 @@
 - Ouverture de la Review (`#todo`) : décrire la démarche. Elle doit s'appuyer sur `review/search-log.md`, à mettre à jour d'abord (voir plus bas).
 - Résumé, Discussion, Conclusion (`#todo`). La Discussion doit relier les résultats aux trois propriétés du Background (exactitude, stabilité, calibration) et dire ce qui n'est pas mesuré.
 - Figure 1 de Results : exemples qualitatifs et erreurs (optionnelle, `#todo` dans le texte).
-- Methods : version d'Ollama et date exacte du run (`#todo`).
 - Results : comptage par taille pour CountGD++ (colonne « n/a » du tableau 2), au prochain run.
 - Mesurer les pages avec la vraie mise en page : installer les polices TeX Gyre (non installées ici).
 - Prévenir Raul : `origin/raul` est toujours à `d37caf5`. Il doit fusionner `jeremy`, qui contient sa version du Background plus la Review, Methods et Results.
