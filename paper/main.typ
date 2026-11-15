@@ -60,10 +60,7 @@
   center + horizon,
   text(size: 7pt, body),
 ))
-#let level(s) = {
-  let c = ("found": rgb("#b7e0b0"), "limited": rgb("#fbe3a0"), "none": rgb("#e0e0e0")).at(s)
-  table.cell(fill: c, s)
-}
+#let level(s) = s
 
 #show: ieee.with(
   title: [How Reliable Are Vision-Language Models for Visual Information Extraction?],
@@ -210,15 +207,19 @@ The evidence is uneven across tasks. Counting is the most studied, and its studi
     set text(size: 7.5pt)
     table(
       columns: (auto, 1fr, 1fr, 1fr, 1fr),
-      inset: (x: 2pt, y: 2pt),
+      inset: (x: 3pt, y: 2.2pt),
+      stroke: none,
       align: (left, center, center, center, center),
+      table.hline(stroke: 0.8pt),
       table.header[*Task*][*Recent VLMs*][*Vs specialist*][*Prompt*][*Confidence*],
-      [Presence], level("limited"), level("none"), level("limited"), level("limited"),
-      [Localization], level("none"), level("limited"), level("limited"), level("none"),
-      [Counting], level("limited"), level("found"), level("none"), level("limited"),
+      table.hline(stroke: 0.4pt),
+      [Presence], [limited], [none], [limited], [limited],
+      [Localization], [none], [limited], [limited], [none],
+      [Counting], [limited], [found], [none], [limited],
+      table.hline(stroke: 0.8pt),
     )
   },
-  caption: [Evidence found in the studies of this review. Recent VLMs: independent study of recent open VLMs. Vs specialist: comparison with a specialized model. Prompt: prompt robustness. Confidence: confidence or calibration of the outputs. "Limited": one study, older or closed models, a different task format, or a study not independent of the model authors. "None": no study found.],
+  caption: [Evidence found in the studies of this review, for independent studies of recent open VLMs, comparisons with a specialist, prompt robustness, and confidence of the outputs. "Limited": one study, older or closed models, or not independent. "None": no study found.],
 ) <fig:evidence>
 
 = Methods <sec:methods>
@@ -232,10 +233,33 @@ We compare one VLM with one specialized model on each of the three tasks, using 
     let box-txt(w, body) = box(width: w, align(center, text(size: 6.5pt, body)))
     cetz.canvas({
       let st(c) = (fill: c.lighten(88%), stroke: 0.7pt + c, radius: 0.08)
-      content((0.9, 0), box-txt(1.5cm)[*Input*\ image and\ class name], frame: "rect", padding: 3pt, name: "in", ..st(luma(90)))
-      content((4.25, 0.72), box-txt(3cm)[*VLM*\ fixed prompt, temperature 0,\ answer parsed], frame: "rect", padding: 3pt, name: "vlm", ..st(cols.at(0)))
-      content((4.25, -0.72), box-txt(3cm)[*Specialist*\ score or boxes above a threshold\ tuned on 100 images], frame: "rect", padding: 3pt, name: "spec", ..st(cols.at(1)))
-      content((7.7, 0), box-txt(1.9cm)[*Same outputs*\ presence, boxes,\ count\ #sym.arrow.b\ *Metrics*\ 400 test images], frame: "rect", padding: 3pt, name: "out", ..st(luma(90)))
+      content((0.9, 0), box-txt(1.5cm)[*Input*\ image and\ class name], frame: "rect", padding: 3pt, name: "in", ..st(
+        luma(90),
+      ))
+      content(
+        (4.25, 0.72),
+        box-txt(3cm)[*VLM*\ fixed prompt, temperature 0,\ answer parsed],
+        frame: "rect",
+        padding: 3pt,
+        name: "vlm",
+        ..st(luma(90)),
+      )
+      content(
+        (4.25, -0.72),
+        box-txt(3cm)[*Specialist*\ score or boxes above a threshold\ tuned on 100 images],
+        frame: "rect",
+        padding: 3pt,
+        name: "spec",
+        ..st(luma(90)),
+      )
+      content(
+        (7.7, 0),
+        box-txt(1.9cm)[*Same outputs*\ presence, boxes,\ count\ #sym.arrow.b\ *Metrics*\ 400 test images],
+        frame: "rect",
+        padding: 3pt,
+        name: "out",
+        ..st(luma(90)),
+      )
       set-style(mark: (end: "stealth", fill: black, scale: 0.6), stroke: 0.6pt)
       line("in.east", "vlm.west")
       line("in.east", "spec.west")
@@ -364,4 +388,4 @@ On common objects in COCO photographs, one recent VLM, Qwen3.8-27B, was more acc
 Several steps would make these results firmer. We would test more VLMs and quantizations, such as Gemma 4. We would measure the effect of the prompt, add a control with a blank image, and use harder presence questions such as those of PVFH-Bench. We would count dense scenes on a set with complete annotations, and evaluate localization at a stricter IoU. We would also run out-of-domain images, for example from Roboflow100-VL and FSC-147. Finally, giving the VLM a confidence, for example from SigLIP 2 scores or from token probabilities, would let us measure the third property of reliability, calibration.
 
 #heading(numbering: none)[Statement on the Use of AI]
-Both authors used Claude (Anthropic) in preparing this paper. One author used it through Claude Code with the Academic Research Skills plugin (version 3.23.1) and the alphaXiv tool, in October and November 2026, to search and summarize the literature, to draft and revise the text of the Review, Methods and Results sections, to write all the experiment code and the Typst formatting, to compute derived figures from the result files, and to check the bibliography against arXiv. The authors then reviewed the text produced with AI and take full responsibility for the content of the paper. The AI tools are not authors of this paper.
+Both authors used Claude (Anthropic) in preparing this paper. One author used it through Claude Code with the Academic Research Skills plugin (version 3.23.1) and the alphaXiv tool, in October and November 2026, to search and summarize the literature, to draft and revise the text of the Review, Methods and Results sections, to write all the experiment code and the Typst formatting, to compute derived figures from the result files, and to check the bibliography against arXiv. The authors then reviewed the text produced with AI and take full responsibility for the content of the paper.
