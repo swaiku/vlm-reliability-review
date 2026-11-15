@@ -24,6 +24,38 @@
 // Keep draft notes visible without disrupting the two-column reading flow.
 #let todo(body) = text(fill: rgb("#f00000"), size: 8.5pt)[*TODO:* #body]
 
+// --- Figure helpers (native Typst, no package) ---
+#let col-vlm = rgb("#d95f02")
+#let col-spec = rgb("#1b6ca8")
+#let col-det = rgb("#8c8c8c")
+#let series = (vlm: (col-vlm, "VLM"), spec: (col-spec, "Specialist"), det: (col-det, "YOLO-World read as presence detector"))
+#let fmt(v) = if calc.fract(v) == 0 { str(int(v)) + ".0" } else { str(v) }
+#let bar(v, key, maxv) = stack(dir: ltr, spacing: 3pt,
+  rect(width: v / maxv * 3.6cm, height: 5pt, fill: series.at(key).first(), stroke: none),
+  text(size: 6.5pt, fmt(v)))
+#let panel(title, maxv, groups) = {
+  text(size: 7.5pt, weight: "bold", title)
+  v(2pt)
+  grid(columns: (2.3cm, 1fr), row-gutter: 5pt, column-gutter: 4pt,
+    ..groups.map(g => (
+      align(right + horizon, text(size: 7pt, g.at(0))),
+      stack(dir: ttb, spacing: 1.5pt, ..g.at(1).map(kv => bar(kv.at(1), kv.at(0), maxv))),
+    )).flatten())
+  v(5pt)
+}
+#let legend(keys) = {
+  set text(size: 7pt)
+  keys.map(k => box(rect(width: 7pt, height: 5pt, fill: series.at(k).first(), stroke: none)) + " " + series.at(k).last()).join(h(8pt))
+  v(4pt)
+}
+#let node(body) = rect(width: 100%, inset: 3.5pt, radius: 2pt, fill: luma(245), stroke: 0.5pt + luma(130),
+  align(center, text(size: 7pt, body)))
+#let arr = align(center, text(size: 8pt, $arrow.b$))
+#let level(s) = {
+  let c = ("found": rgb("#b7e0b0"), "limited": rgb("#fbe3a0"), "none": rgb("#e0e0e0")).at(s)
+  table.cell(fill: c, align: center, text(size: 6.5pt, s))
+}
+
 #show: ieee.with(
   title: [How Reliable Are Vision-Language Models for Visual Information Extraction?],
   abstract: [
@@ -163,9 +195,49 @@ Specialist counters give a reference. CountGD repurposes Grounding DINO to count
 // [budget] 0.20 p
 The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Studies that compare a VLM with a specialist exist for localization and counting, and in most of them the specialist is better, but none exists for presence. Localization is the weakest case: independent comparisons with detectors are few, and most use closed or older models. Across the three tasks, we found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on boxes or counts, or reports the confidence of generated boxes. Our experiment addresses the first of these gaps, for one recent open VLM. It does not address the other two.
 
+
+#figure(
+  table(
+    columns: (auto, 1fr, 1fr, 1fr, 1fr),
+    inset: 2.5pt, stroke: 0.4pt + luma(150), align: horizon,
+    table.header(
+      text(size: 6.5pt, weight: "bold")[Task],
+      text(size: 6.5pt, weight: "bold")[Recent open VLMs, independent study],
+      text(size: 6.5pt, weight: "bold")[VLM against a specialist],
+      text(size: 6.5pt, weight: "bold")[Prompt robustness],
+      text(size: 6.5pt, weight: "bold")[Confidence of the outputs],
+    ),
+    text(size: 7pt)[Presence], level("limited"), level("none"), level("limited"), level("limited"),
+    text(size: 7pt)[Localization], level("none"), level("limited"), level("limited"), level("none"),
+    text(size: 7pt)[Counting], level("limited"), level("found"), level("none"), level("limited"),
+  ),
+  caption: [Evidence found in the studies of this review. "Limited": one study, older or closed models, a different task format, or a study that is not independent of the model authors. "None": no study found.],
+) <fig:evidence>
+
 = Methods <sec:methods>
 // [budget] 1.15 p (~800 words)
 We compare one VLM with one specialized model on each of the three tasks, using existing benchmark images and one run. Both models receive the same image and the same class name. Thresholds are set on a tuning part of the images and never on the test part.
+
+
+#figure(
+  [
+    #node[*Input*: an image and a class name, for example "dog"]
+    #arr
+    #grid(columns: (1fr, 1fr), column-gutter: 5pt,
+      [#node[*VLM*, Qwen3.8-27B\ one fixed prompt per task, temperature 0]
+       #arr
+       #node[text answer, for example "yes", a JSON list of boxes, or "3", parsed into presence, boxes, count]],
+      [#node[*Specialist*\ SigLIP 2, YOLO-World, CountGD++]
+       #arr
+       #node[scores and boxes, kept above a threshold tuned on the 100 tuning images]],
+    )
+    #arr
+    #node[*Same three outputs*: presence (yes or no), boxes (matched at IoU 0.5), count]
+    #arr
+    #node[*Metrics on the 400 test images*: accuracy, precision, recall, F1, exact match, MAE, with 95% bootstrap intervals over images]
+  ],
+  caption: [Protocol: both models receive the same image and class name, and their outputs are scored with the same metrics.],
+) <fig:protocol>
 
 == Task
 We use the three tasks defined in @sec:background. For object presence, the model says whether an object of a given class is in the image. For localization, it returns a box for each instance of the class. For counting, it returns the number of instances.
@@ -197,9 +269,34 @@ All numbers come from one run on the test part of the 500 POPE images, which is 
 
 *Localization.* YOLO-World has a higher F1 than the VLM, 56.6% against 49.2% at IoU 0.5, a difference of 7.4 points [4.1, 10.6]. The VLM finds more objects (recall 61.4% against 49.2%) but with many more wrong boxes (precision 41.0% against 66.7%). Much of the gap comes from the absent classes: the VLM returns at least one box for 23.5% of the negative queries, against 6.3% for YOLO-World. On the positive queries alone, the F1 scores are close, 55.9% against 58.6%, although YOLO-World stays more precise (72.4% against 51.3%).
 
+#figure(
+  [
+    #legend(("vlm", "spec", "det"))
+    #panel([Presence, F1 (%), by POPE setting], 100, (
+      ("random", (("vlm", 93.2), ("spec", 79.3), ("det", 88.2))),
+      ("popular", (("vlm", 88.4), ("spec", 78.6), ("det", 83.6))),
+      ("adversarial", (("vlm", 84.9), ("spec", 73.9), ("det", 77.8))),
+    ))
+    #panel([Localization at IoU 0.5 (%)], 100, (
+      ("precision", (("vlm", 41.0), ("spec", 66.7))),
+      ("recall", (("vlm", 61.4), ("spec", 49.2))),
+      ("F1", (("vlm", 49.2), ("spec", 56.6))),
+      ([absent classes with a box, lower is better], (("vlm", 23.5), ("spec", 6.3))),
+    ))
+    #panel([Counting, exact match (%), by true count], 100, (
+      ("all queries", (("vlm", 80.0), ("spec", 74.4))),
+      ("0", (("vlm", 90.3), ("spec", 99.0))),
+      ("1 to 3", (("vlm", 71.1), ("spec", 32.5))),
+      ("4 to 9", (("vlm", 9.6), ("spec", 14.4))),
+      ("10 or more", (("vlm", 7.1), ("spec", 7.1))),
+    ))
+  ],
+  caption: [VLM and specialists on the test images. Specialist: SigLIP 2 for presence, YOLO-World for localization, CountGD++ for counting. The values are those of @tab:results.],
+) <fig:results>
+
 *Counting.* With its threshold tuned on the tuning queries (0.35), CountGD++ is exact for 74.4% of the queries with an MAE of 0.85, against 80.0% and 0.41 for the VLM, a difference in MAE of 0.44 [0.28, 0.61]. The default threshold of its authors does slightly worse (73.8%, MAE 1.08). The average is dominated by the 65% of zero counts, where CountGD++ is almost always right (99.0% against 90.3%). From 1 to 3 objects, CountGD++ is exact for only 32.5% of the queries, against 71.1%, and it mostly counts too few (749 of 1,325 queries, against 146 too many). From 4 up, both models are rarely exact (9.6% and 7.1% for the VLM, 14.4% and 7.1% for CountGD++), as earlier counting studies report for VLMs @tamarapalli2025countqa @rong2026unicbench. On the counts of 10 or more, they err in opposite directions: the VLM gives 5.5 objects on average for 12.1, and CountGD++ gives 24.4, with an MAE of 17.8 against 6.62. These few dense images also explain its RMSE (5.79 against 1.38), with up to 218 books counted where COCO has 13. This comparison is uncertain, because COCO marks dense groups as crowd regions, which we exclude: 43 of the 84 queries with 10 or more objects have one, and the MAE of CountGD++ is 25.8 on them against 9.5 on the others. Part of its excess is probably objects that COCO does not annotate one by one.
 
-*Limits.* These results come from a single run with one VLM, Qwen3.8-27B in its 4-bit Ollama version @qwen38card. The intervals cover the choice of images, not the variation across runs or prompts. VLM boxes have no score, so the VLM has one operating point, while each specialist was set on the tuning part. All images are COCO photographs of common objects, so the results say nothing about other domains. COCO does not annotate every object, and the absent classes come from these annotations, so some boxes that we count as false positives of the VLM may be real objects. This is probably a small part of the 23.5%: RePOPE re-annotated the 500 POPE images and found a wrong label for 1.7% of the "no" questions and 4.3% more that are ambiguous @neuhaus2025repope. On the other hand, a re-annotation of the COCO validation images finds 40% more objects, mostly small or occluded ones @penquitt2026incomplete. We did not check a sample of our boxes by hand. We did not measure prompt robustness or calibration. #todo[Fig. 1: qualitative examples and failure cases.]
+*Limits.* These results come from a single run with one VLM, Qwen3.8-27B in its 4-bit Ollama version @qwen38card. The intervals cover the choice of images, not the variation across runs or prompts. VLM boxes have no score, so the VLM has one operating point, while each specialist was set on the tuning part. All images are COCO photographs of common objects, so the results say nothing about other domains. COCO does not annotate every object, and the absent classes come from these annotations, so some boxes that we count as false positives of the VLM may be real objects. This is probably a small part of the 23.5%: RePOPE re-annotated the 500 POPE images and found a wrong label for 1.7% of the "no" questions and 4.3% more that are ambiguous @neuhaus2025repope. On the other hand, a re-annotation of the COCO validation images finds 40% more objects, mostly small or occluded ones @penquitt2026incomplete. We did not check a sample of our boxes by hand. We did not measure prompt robustness or calibration. #todo[Figure with qualitative examples and failure cases.]
 
 #figure(
   {
