@@ -799,3 +799,30 @@ lin2014coco:
     type: Proceedings
     title: "European Conference on Computer Vision (ECCV)"
 
+
+neuhaus2025repope:
+  type: Article
+  title: "RePOPE: Impact of Annotation Errors on the POPE Benchmark"
+  author:
+    - "Neuhaus, Yannic"
+    - "Hein, Matthias"
+  date: 2025
+  serial-number:
+    arxiv: "2504.15707"
+  url: https://arxiv.org/abs/2504.15707
+
+penquitt2026incomplete:
+  type: Article
+  title: "Object Detection Benchmarks are Incomplete: The Role of Label Errors and Annotation Uncertainty"
+  author:
+    - "Penquitt, Sarina"
+    - "Klees, Jonathan"
+    - "van Betteray, Antonia"
+    - "Jashnieh, Parssa"
+    - "Stehr, Peter"
+    - "Rottmann, Matthias"
+    - "Schmarje, Lars"
+  date: 2026
+  serial-number:
+    arxiv: "2609.21822"
+  url: https://arxiv.org/abs/2609.21822
