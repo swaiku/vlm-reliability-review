@@ -36,9 +36,5 @@
 11. **Un second VLM** (Gemma 4, LFM3-VL) pour ne pas conclure sur un seul modèle.
 12. **Jeux hors domaine** (Roboflow100-VL, FSC-147) : pour la robustesse au décalage de domaine.
 
-## À valider avec Raul (son Background)
-- Introduire SigLIP 2 et CountGD++ (deux phrases chacun) : Methods les utilise sans que le Background les décrive.
-- MMBench, LLMDet et OWLv2 sont peu liés à la question : à garder ou à retirer.
-
 ## Fin du papier
 - URL GitHub et commit dans Implementation (`#todo` dans le texte).
