@@ -30,21 +30,36 @@
 #let cols = (rgb("#d95f02"), rgb("#1b6ca8"), rgb("#8c8c8c"))
 #let legend(items) = {
   set text(size: 7.5pt)
-  items.enumerate().map(((i, s)) => box(rect(width: 7pt, height: 5pt, fill: cols.at(i), stroke: none)) + " " + s).join(h(10pt))
+  items
+    .enumerate()
+    .map(((i, s)) => box(rect(width: 7pt, height: 5pt, fill: cols.at(i), stroke: none)) + " " + s)
+    .join(h(10pt))
 }
 #let cols-chart(title, data, w: 5.4, h: 2.6, tick: 25) = {
   let n = data.first().len() - 1
   align(center, text(size: 7.5pt, weight: "bold", title))
   v(-2pt)
   cetz.canvas({
-    chart.columnchart(data, mode: "clustered", label-key: 0, value-key: range(1, n + 1),
-      size: (w, h), bar-width: 0.8, y-min: 0, y-max: 100, y-tick-step: tick,
-      x-label: none, y-label: none,
-      bar-style: i => (fill: cols.at(i), stroke: none))
+    chart.columnchart(
+      data,
+      mode: "clustered",
+      label-key: 0,
+      value-key: range(1, n + 1),
+      size: (w, h),
+      bar-width: 0.8,
+      y-min: 0,
+      y-max: 100,
+      y-tick-step: tick,
+      x-label: none,
+      y-label: none,
+      bar-style: i => (fill: cols.at(i), stroke: none),
+    )
   })
 }
-#let node(body) = rect(width: 100%, inset: 3pt, radius: 2pt, fill: luma(245), stroke: 0.5pt + luma(130),
-  align(center + horizon, text(size: 7pt, body)))
+#let node(body) = rect(width: 100%, inset: 3pt, radius: 2pt, fill: luma(245), stroke: 0.5pt + luma(130), align(
+  center + horizon,
+  text(size: 7pt, body),
+))
 #let level(s) = {
   let c = ("found": rgb("#b7e0b0"), "limited": rgb("#fbe3a0"), "none": rgb("#e0e0e0")).at(s)
   table.cell(fill: c, s)
@@ -212,14 +227,22 @@ We compare one VLM with one specialized model on each of the three tasks, using 
 
 
 #figure(
-  grid(columns: (1.4cm, 9pt, 1fr, 9pt, 3cm), row-gutter: 3pt, align: center + horizon,
-    grid.cell(rowspan: 2, node[*Input*\ image and class name]),
-    grid.cell(rowspan: 2, $arrow.r$),
-    node[*VLM* (Qwen3.8-27B): fixed prompt, temperature 0, answer parsed],
-    grid.cell(rowspan: 2, $arrow.r$),
-    grid.cell(rowspan: 2, node[*Same outputs*: presence, boxes, count\ $arrow.b$\ *Metrics* on the 400 test images]),
-    node[*Specialist*: scores or boxes above a threshold tuned on 100 images],
-  ),
+  {
+    import cetz.draw: *
+    let box-txt(w, body) = box(width: w, align(center, text(size: 6.5pt, body)))
+    cetz.canvas({
+      let st(c) = (fill: c.lighten(88%), stroke: 0.7pt + c, radius: 0.08)
+      content((0.9, 0), box-txt(1.5cm)[*Input*\ image and\ class name], frame: "rect", padding: 3pt, name: "in", ..st(luma(90)))
+      content((4.25, 0.72), box-txt(3cm)[*VLM*\ fixed prompt, temperature 0,\ answer parsed], frame: "rect", padding: 3pt, name: "vlm", ..st(cols.at(0)))
+      content((4.25, -0.72), box-txt(3cm)[*Specialist*\ score or boxes above a threshold\ tuned on 100 images], frame: "rect", padding: 3pt, name: "spec", ..st(cols.at(1)))
+      content((7.7, 0), box-txt(1.9cm)[*Same outputs*\ presence, boxes,\ count\ #sym.arrow.b\ *Metrics*\ 400 test images], frame: "rect", padding: 3pt, name: "out", ..st(luma(90)))
+      set-style(mark: (end: "stealth", fill: black, scale: 0.6), stroke: 0.6pt)
+      line("in.east", "vlm.west")
+      line("in.east", "spec.west")
+      line("vlm.east", "out.west")
+      line("spec.east", "out.west")
+    })
+  },
   caption: [Protocol: both models receive the same image and class name, and their outputs are scored with the same metrics, with 95% bootstrap intervals over images.],
 ) <fig:protocol>
 
@@ -258,17 +281,32 @@ All numbers come from one run on the test part of the 500 POPE images, which is 
 *Limits.* These results come from a single run with one VLM, Qwen3.8-27B in its 4-bit Ollama version @qwen38card. The intervals cover the choice of images, not the variation across runs or prompts. VLM boxes have no score, so the VLM has one operating point, while each specialist was set on the tuning part. All images are COCO photographs of common objects, so the results say nothing about other domains. COCO does not annotate every object, and the absent classes come from these annotations, so some boxes that we count as false positives of the VLM may be real objects. This is probably a small part of the 23.5%: RePOPE re-annotated the 500 POPE images and found a wrong label for 1.7% of the "no" questions and 4.3% more that are ambiguous @neuhaus2025repope. On the other hand, a re-annotation of the COCO validation images finds 40% more objects, mostly small or occluded ones @penquitt2026incomplete. We did not check a sample of our boxes by hand. We did not measure prompt robustness or calibration. #todo[Figure with qualitative examples and failure cases.]
 
 #figure(
-  placement: top, scope: "parent",
+  placement: top,
+  scope: "parent",
   [
     #align(center, legend(([VLM], [Specialist], [YOLO-World read as presence detector])))
     #v(2pt)
-    #grid(columns: (1fr, 1fr, 1fr), column-gutter: 8pt,
+    #grid(
+      columns: (1fr, 1fr, 1fr),
+      column-gutter: 8pt,
       cols-chart([Presence: F1 (%)], (
-        ([rand.], 93.2, 79.3, 88.2), ([pop.], 88.4, 78.6, 83.6), ([adv.], 84.9, 73.9, 77.8))),
+        ([rand.], 93.2, 79.3, 88.2),
+        ([pop.], 88.4, 78.6, 83.6),
+        ([adv.], 84.9, 73.9, 77.8),
+      )),
       cols-chart([Localization at IoU 0.5 (%)], (
-        ([P], 41.0, 66.7), ([R], 61.4, 49.2), ([F1], 49.2, 56.6), ([absent], 23.5, 6.3))),
+        ([P], 41.0, 66.7),
+        ([R], 61.4, 49.2),
+        ([F1], 49.2, 56.6),
+        ([absent], 23.5, 6.3),
+      )),
       cols-chart([Counting: exact match (%)], (
-        ([all], 80.0, 74.4), ([0], 90.3, 99.0), ([1-3], 71.1, 32.5), ([4-9], 9.6, 14.4), ([10+], 7.1, 7.1))),
+        ([all], 80.0, 74.4),
+        ([0], 90.3, 99.0),
+        ([1-3], 71.1, 32.5),
+        ([4-9], 9.6, 14.4),
+        ([10+], 7.1, 7.1),
+      )),
     )
   ],
   caption: [VLM and specialists on the test images (values of @tab:results). Specialist: SigLIP 2 for presence, YOLO-World for localization, CountGD++ for counting. Presence: random, popular and adversarial POPE settings. Localization: precision (P), recall (R), F1, and share of absent classes that receive a box (lower is better). Counting: all queries, then by true count.],
@@ -278,24 +316,34 @@ All numbers come from one run on the test part of the 500 POPE images, which is 
   {
     set text(size: 7.5pt)
     table(
-      columns: (auto, auto, auto, 1fr, 1fr, 1fr),
-      inset: (x: 2pt, y: 2pt),
-      align: (left, left, left, right, right, right),
-      table.header[*Task*][*Setting*][*Metric (%)*][*VLM*][*Specialist*][*Detector*],
-      [Presence], [random], [acc. / F1], [93.3 / 93.2], [81.9 / 79.3], [88.6 / 88.2],
-      [Presence], [popular], [acc. / F1], [87.9 / 88.4], [81.4 / 78.6], [83.6 / 83.6],
-      [Presence], [adversarial], [acc. / F1], [83.5 / 84.9], [76.3 / 73.9], [78.9 / 77.8],
-      [Localization], [all queries], [P / R / F1], [41.0 / 61.4 / 49.2], [66.7 / 49.2 / 56.6], [],
-      [Localization], [positives], [P / R / F1], [51.3 / 61.4 / 55.9], [72.4 / 49.2 / 58.6], [],
-      [Localization], [negatives], [with a box], [23.5], [6.3], [],
-      [Counting], [all queries], [exact / MAE], [80.0 / 0.41], [74.4 / 0.85], [],
-      [Counting], [true count 0], [exact / MAE], [90.3 / 0.11], [99.0 / 0.03], [],
-      [Counting], [true count 1-3], [exact / MAE], [71.1 / 0.34], [32.5 / 1.15], [],
-      [Counting], [true count 4-9], [exact / MAE], [9.6 / 3.02], [14.4 / 4.13], [],
-      [Counting], [true count 10+], [exact / MAE], [7.1 / 6.62], [7.1 / 17.8], [],
+      columns: (1fr, auto, auto, auto),
+      inset: (x: 3pt, y: 2.2pt),
+      stroke: none,
+      align: (left, center, center, center),
+      table.hline(stroke: 0.8pt),
+      table.header[*Metric*][*VLM*][*Specialist*][*Detector*],
+      table.hline(stroke: 0.4pt),
+      table.cell(colspan: 4, fill: luma(238), align: left)[*Presence*: accuracy / F1 (%)],
+      [random], [93.3 / 93.2], [81.9 / 79.3], [88.6 / 88.2],
+      [popular], [87.9 / 88.4], [81.4 / 78.6], [83.6 / 83.6],
+      [adversarial], [83.5 / 84.9], [76.3 / 73.9], [78.9 / 77.8],
+      table.cell(colspan: 4, fill: luma(238), align: left)[*Localization* at IoU 0.5 (%)],
+      [precision], [41.0], [66.7], [],
+      [recall], [61.4], [49.2], [],
+      [F1], [49.2], [56.6], [],
+      [precision, positive queries], [51.3], [72.4], [],
+      [F1, positive queries], [55.9], [58.6], [],
+      [absent classes with a box], [23.5], [6.3], [],
+      table.cell(colspan: 4, fill: luma(238), align: left)[*Counting*: exact match (%) / MAE],
+      [all queries], [80.0 / 0.41], [74.4 / 0.85], [],
+      [true count 0], [90.3 / 0.11], [99.0 / 0.03], [],
+      [true count 1 to 3], [71.1 / 0.34], [32.5 / 1.15], [],
+      [true count 4 to 9], [9.6 / 3.02], [14.4 / 4.13], [],
+      [true count 10 or more], [7.1 / 6.62], [7.1 / 17.8], [],
+      table.hline(stroke: 0.8pt),
     )
   },
-  caption: [VLM (Qwen3.8-27B) and specialist on the test part of the POPE images. Specialist: SigLIP 2 for presence, YOLO-World for localization, and CountGD++ with its threshold tuned on the tuning part for counting. Detector: presence read from the best YOLO-World box. MAE is in counts, not in %.],
+  caption: [VLM (Qwen3.8-27B) and specialist on the test part of the POPE images. Specialist: SigLIP 2 for presence, YOLO-World for localization, and CountGD++ with its threshold tuned on the tuning part for counting. Detector: presence read from the best YOLO-World box. MAE is in counts, not in %. The recall on positive queries is the "recall" row.],
 ) <tab:results>
 
 = Discussion <sec:discussion>
