@@ -1,6 +1,6 @@
 # Sources
 
-45 entries in `paper/refs.yml` (all cited in the paper), of which 31 are tabulated below with their original reading level (abstract / project page). Sources added or read in full text since 2026-11-09 are listed in the last section. Claims in the table below must be checked in the full text before they appear in the paper, unless the last section says they were.
+45 entries in `paper/refs.yml`, of which 43 are cited in the paper (`liu2024mmbench` and `sapkota2025review` are not cited, so they do not appear in the printed references), and 31 are tabulated below with their original reading level (abstract / project page). Sources added or read in full text since 2026-11-09 are listed in the last section. Claims in the table below must be checked in the full text before they appear in the paper, unless the last section says they were.
 
 Numbers are stable identifiers: gaps are sources removed after the restructuring (see the end of this file).
 
