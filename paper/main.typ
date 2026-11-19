@@ -1,24 +1,5 @@
 #import "@preview/charged-ieee:0.1.4": ieee
 
-// =============================================================================
-// PAGE BUDGET: 8 pages IEEE two-column, references EXCLUDED from the 8 pages.
-// Assumption: ~900 words per page of pure text. Tables and figures are counted
-// separately. Measure after the first draft of section 3 and rebalance.
-//
-//  Section                          Pages  ~Words  Floats
-//  Title block + Abstract + Intro    1.00    500   title block ~0.4 p
-//  2 Background                      0.75    650   -
-//  3 Review (reliability of VLMs)    2.25   1500   -
-//  4 Methods                         1.15    800   -
-//  5 Results                         1.40    550   Tab. 1 main results (~0.3 p), Fig. 1 qualitative (~0.5 p)
-//  6 Discussion                      0.80    700   -
-//  7 Conclusion                      0.35    300   -
-//  Slack (float placement)           0.30
-//  Total                             8.00   ~5000
-//
-// Each section below carries its own [budget] tag. Remove before submission.
-// =============================================================================
-
 // --- Figure helpers ---
 #import "@preview/cetz:0.3.4"
 #import "@preview/cetz-plot:0.1.1": chart
@@ -91,19 +72,15 @@
 )
 
 = Introduction
-// [budget] Title block + abstract + intro = 1.00 p total (~500 words of text)
-// [budget] Intro body ~0.6 p: context (1 par), gap (1 par), RQ + contributions + overview (short)
 
 Vision-Language Models (VLMs) can answer questions about images and describe what they show. Visual information extraction covers many tasks. A model may need to decide whether an object is present, classify it, count its instances, describe its attributes, or locate it with coordinates or bounding boxes. It may also need to describe relations between objects, such as distance or depth, and read text in a scene. VLMs offer one general way to approach these tasks. However, an answer is only useful if it is reliable, and studies have reported errors in object presence, counting, and visual grounding @li2023pope @tamarapalli2025countqa @li2025groundingme.
 
 It is hard to draw one clear conclusion about VLM reliability because studies test different tasks, models, images, and measures. Specialized systems also exist for many extraction tasks, and few of the studies we reviewed compare a VLM with such a system on the same real-world images. Such a comparison can show where a general model is strong and where it falls short. This paper reviews results from previous studies on object presence, localization, and counting, together with factors that affect reliability; attributes, relations, and text reading are outside its scope. We then compare one VLM with one specialized model for each of these three tasks on real-world images.
 
 == Research question
-// [budget] 2 sentences max
 To what extent are VLMs reliable for visual information extraction from the real world?
 
 == Contributions
-// [budget] 3 bullets, 1 line each. Contribution wording is yours to write.
 - A narrative review of previous studies on VLM reliability for object presence, localization, and counting.
 - An experiment on real-world images that compares one VLM with one specialized model for each of the three tasks.
 - An analysis of where the models make errors and which questions remain open.
@@ -145,14 +122,9 @@ A predicted box counts as a true positive when its IoU with a ground-truth box t
 Finally, a reliable system must also be able to say that an object is not there, which these measures capture only in part. For this reason, OmniLabel adds negative descriptions that match no object in the image @schulter2023omnilabel, and GroundingME tests whether models reject queries that cannot be grounded @li2025groundingme.
 
 = Reliability of VLMs: A Review <sec:review>
-// [budget] 2.25 p (~1500 words text). Review = core of the paper.
-// Sub-budgets below sum to 1.75 p text + 0.5 p table. Method and limits of the search: review/search-log.md.
-// Opening paragraph ~0.10 p
 This review is narrative, not systematic. Between October and November 2026, with the help of an AI assistant, we started from well-known works that the assistant proposed, looked each one up on arXiv or conference pages, and ran about fifteen web queries to fill the gaps. No bibliographic database was queried, and the assistant alone screened the results, without a second reader. We kept a study when it measures one of the three tasks, a specialized model for one of them, or a factor that affects reliability. Of the 43 works cited, the assistant read 23 in full to check the figures we report, and four (Ramachandran et al., DetToolChain, Promptception, UNICBench) only in the passages that give them. The others, mostly cited for their design, were read in the abstract, the only check of our figures for HallusionBench and Grounding DINO. Both authors read in full the three studies the paper relies on most: POPE, Roboflow100-VL, and Ramachandran et al. The queries, the selection, and the reading level of each source are listed in the `review` folder of the repository given in @sec:methods. A statement that no study exists therefore means that we found none. We first review the evidence for object presence, localization, and counting, then the factors that cut across them: prompt wording, confidence, and domain shift.
 
 == Object Presence
-// [budget] 0.35 p
-// sources: li2023pope, wang2023amber, villa2023merlim, guan2024hallusionbench, li2025groundingme (rejection), lan2026seeing (what yes/no scores measure), bai2024survey
 Object hallucination, where a model reports an object that is not in the image, is the best-studied reliability problem for presence @bai2024survey. POPE turns it into yes/no polling questions and finds that frequent and co-occurring objects are hallucinated more often @li2023pope. AMBER adds an evaluation without an LLM judge and shows the same asymmetry: for the nine models it tests, recall on the questions whose true answer is "no" is far below precision, so the models answer "yes" too readily @wang2023amber.
 
 A correct answer does not prove that the image was used. HallusionBench pairs questions with edited images to separate language hallucination from visual illusion, and GPT-4V reaches only 31.42% question-pair accuracy @guan2024hallusionbench. MERLIM removes an object by inpainting and finds that the best models lose the most precision on the edited images, which suggests that some correct answers come from the language prior or the global context @villa2023merlim. A similar signal appears on POPE: removing 75% of the image tokens lowers accuracy by only about 3 points for two of the five open models tested, on a 300-example subset @lan2026seeing.
@@ -160,8 +132,6 @@ A correct answer does not prove that the image was used. HallusionBench pairs qu
 Few studies test whether a model can refuse a query that it cannot ground. GroundingME evaluates this rejection and reports that most models do it poorly @li2025groundingme. PVFH-Bench tests recent models on 258 COCO images, with an absent object that looks like a visible one. Qwen3-VL-8B answers 98.45% of the questions about the visible object correctly, but only 80.62% for the look-alike absent object and 58.14% once a false premise is added. Gemma-3-27B-IT falls from 98.84% to 28.29% @wang2026pvfh. Most other presence benchmarks, such as POPE and AMBER, evaluate 2023-era models. We found no study that compares a VLM with a specialist on object presence. The closest evidence is for whole-image classification, not for an object in a scene: GPT-4 reaches 60.6% on ImageNet, against 79.2% for the CLIP model EVA-G @zhang2024classification.
 
 == Object Localization
-// [budget] 0.40 p
-// sources: ramachandran2026gpt4o, jiang2025rexomni, wu2024dettoolchain, robicheaux2025rf100vl, liu2023groundingdino, cheng2024yoloworld
 Open-vocabulary detectors such as Grounding DINO and YOLO-World are the usual reference for localizing a named object @liu2023groundingdino @cheng2024yoloworld. Recent VLMs now write boxes directly. On COCO, Rex-Omni reaches an F1 of 72.0 at IoU 0.5 against 69.8 for Grounding DINO, but at IoU 0.95 the detector is better (Grounding DINO 23.0, Rex-Omni 15.9), and Qwen2.5-VL-7B reaches 64.0 at IoU 0.5 @jiang2025rexomni. Because VLM boxes have no score, the detectors are compared at their best-F1 threshold. This comparison comes from a preprint whose authors also built Grounding DINO, so no independent group has checked it.
 
 Independent studies are less favorable. Ramachandran et al. evaluate GPT-4o and other multimodal models on standard vision tasks through prompt chaining. On detection, GPT-4o reaches 60.62 AP50 with this chaining, against 17.69 with direct prompting and 91.30 for the specialist Co-DETR @ramachandran2026gpt4o. The prompting procedure therefore changes the outcome as much as the model does. DetToolChain obtains a similar gain by prompting: GPT-4V and Gemini reach 65.8 AP50 on COCO novel classes, 22.7 points above CORA @wu2024dettoolchain. In both studies, the gain comes from a procedure built around the model, not from the model alone.
@@ -171,8 +141,6 @@ Real-world images are harder. Roboflow100-VL collects 100 datasets outside the u
 Two limits remain. These studies use closed models through APIs or older open models, and most report AP, which VLM boxes cannot give because they carry no score (@sec:background). We found no study that compares a recent open VLM with a detector at one fixed operating point on the same real photographs.
 
 == Object Counting
-// [budget] 0.40 p
-// sources: tamarapalli2025countqa, qharabagh2024lvlmcount, rong2026unicbench, fuzesseery2025counting, amini2024countgd, amini2025countgdpp
 Counting is the best-covered task. CountQA uses dense, cluttered scenes and finds that accuracy falls as the count rises @tamarapalli2025countqa. LVLM-Count and UNICBench agree: models are fairly reliable for small counts and degrade for large ones, and UNICBench covers 5,300 images and 21 MLLMs on its image track @qharabagh2024lvlmcount @rong2026unicbench. On the FSC-147 test set, GPT-4o and GPT-5 reach a mean absolute error (MAE) of 20.73 and 20.96, against 15.69 for the best zero-shot specialist in the same table (16.2 and 16.8 when the authors skip the images with the largest errors), and on CARPK their errors (30.13 or more) are far above the 8.13 of a specialist counter @fuzesseery2025counting. Both models predict a count of 1 for an image of 2,560 Lego pieces.
 
 HoloCount is the only study we found that evaluates the recent open models on counting. It tests Qwen3.5, Qwen3-VL and Gemma 3 on 2,480 questions: the average exact-match accuracy is 71.4% for Qwen3.5-9B in thinking mode (57.5% without), 58.1% for Qwen3-VL-8B-Instruct and 48.4% for Gemma3-27B. In high-density scenes, Qwen3.5-27B in thinking mode reaches 20.0% and Gemma3-27B 0.0%. On questions about an object that is absent, Qwen3-VL-8B answers zero correctly in 96.4% of cases and Gemma3-27B in 87.2% @deng2026holocount. It includes no specialist counter.
@@ -180,8 +148,6 @@ HoloCount is the only study we found that evaluates the recent open models on co
 Specialist counters give a reference. CountGD repurposes Grounding DINO to count from text, exemplars or both @amini2024countgd. Its successor reaches a mean absolute error of 8.39 on FSC-147, against 43.18 for Gemini-2.5 and 40.41 for Molmo @amini2025countgdpp. This figure uses pseudo-exemplars and synthetic exemplars generated from the class name, which our experiment does not use (16.55 with the class name alone). Both papers come from the same group, and the model was trained on FSC-147, so this is not an independent test. We found no study that compares counts derived from detector boxes with the direct counts of a VLM on the same images.
 
 == Factors Affecting Reliability
-// [budget] 0.30 p
-// sources: schmalfuss2025parc, ismithdeen2025promptception (prompt); ding2025knowledge, groot2024overconfidence, levine2023calibration (confidence); saxena2026robustbench (domain shift)
 *Prompt wording.* Promptception tests 10 models with 61 prompt types and finds accuracy deviations of up to 15% @ismithdeen2025promptception, and PARC measures the sensitivity of 22 VLMs to language and vision prompt variations @schmalfuss2025parc. These studies use multiple-choice questions, not boxes or counts. Ramachandran et al. are the exception: their detection score moves from 17.69 to 60.62 AP50 with the prompting procedure @ramachandran2026gpt4o.
 
 *Confidence.* This is the least studied factor. Zero-shot CLIP is miscalibrated, but one learned temperature corrects it across datasets @levine2023calibration. LLMs and VLMs are overconfident when they state their own uncertainty, including for counting @groot2024overconfidence, and probability and consistency signals are more reliable than verbalized confidence @ding2025knowledge. No study we found addresses the confidence of generated boxes.
@@ -189,7 +155,6 @@ Specialist counters give a reference. CountGD repurposes Grounding DINO to count
 *Domain shift.* VLM-RobustBench applies 49 corruption types in 133 settings and reports losses of up to 34 points, with low-severity spatial changes sometimes hurting more than severe photometric ones @saxena2026robustbench. For object detection, Roboflow100-VL finds low zero-shot scores for both detectors and VLMs on domains outside their usual training data (15.7 mAP for Grounding DINO and 5.6 for Qwen2.5-VL) @robicheaux2025rf100vl. For specialists, a robustness study on COCO-O reports a mean mAP drop of 6.9 points for Grounding DINO (48.4 to 41.5, the clean value taken from its own paper), 15.9 for YOLO-World and 10.4 for OWL-ViT @chhipa2024ovrobust. We found no equivalent measure for VLMs on box or count tasks.
 
 == Synthesis
-// [budget] 0.20 p
 The evidence is uneven across tasks. Counting is the most studied, and its studies agree that VLMs degrade as the number of objects grows. Presence rests on older benchmarks, and recent work questions what a high yes/no score proves @lan2026seeing. Studies that compare a VLM with a specialist exist for localization and counting, and in most of them the specialist is better, but none exists for presence. For localization, comparisons with detectors are the most numerous, but the independent ones use closed or older models, so recent open models remain untested. We found no study that tests recent open VLMs against a specialist on the same real photographs, measures prompt robustness on presence answers or counts, or reports the confidence of generated boxes. Our experiment addresses the first of these gaps, for one recent open VLM.
 
 
@@ -214,7 +179,6 @@ The evidence is uneven across tasks. Counting is the most studied, and its studi
 ) <tab:evidence>
 
 = Methods <sec:methods>
-// [budget] 1.15 p (~800 words)
 We compare one VLM with one specialized model on each of the three tasks of @sec:background, using existing benchmark images and one run. Both models receive the same image and the same class name. Thresholds are set on a tuning part of the images and never on the test part.
 
 
@@ -280,8 +244,6 @@ For presence, we report accuracy, precision, recall, F1, and the share of "yes" 
 The code is at #link("https://github.com/swaiku/vlm-reliability-review") (folder `experiments`). The VLM runs locally with Ollama 0.40.16, installed directly, on an AMD RX 7900 XTX (ROCm). The specialists run with PyTorch 2.15 for ROCm, Transformers 4.57, and Ultralytics 8.4. The environment is managed with uv. The weights of CountGD++ come from a fixed revision of its Hugging Face repository. Every model output is saved (VLM answers, and specialist scores and boxes before any threshold), so a run can be resumed, and all metrics and intervals can be recomputed without the models. The VLM answers were obtained on 12 November 2026 and the specialist outputs on 13 November 2026.
 
 = Results <sec:results>
-// [budget] 1.40 p (~550 words + Tab. 1 ~0.3 p + Fig. 1 ~0.5 p)
-// Tab. 1: VLM vs specialist by task; Fig. 1: qualitative examples and failure cases (todo)
 All numbers come from one run on the 400 test images, and 65% of the localization and counting queries ask about an absent class. Numbers in brackets are 95% bootstrap intervals over the test images.
 
 *Presence.* The VLM is more accurate than SigLIP 2 in all three settings (@tab:results), and both models lose accuracy from the random to the adversarial setting, as in the original POPE results @li2023pope. At most 0.13% of the VLM answers cannot be parsed. The two models fail in opposite ways. The VLM finds 92.7% of the present objects in every setting, since the settings differ only in their absent objects, but its precision falls from 93.8% to 78.3% as its share of "yes" answers rises from 49% to 59%. SigLIP 2 is cautious: it says "yes" to at most 41% of the questions and finds only about two thirds of the present objects. Its tuned thresholds are tiny (about $4 times 10^(-6)$), so its raw scores cannot be read as probabilities. YOLO-World, read as a presence detector, is a closer baseline. In F1, the VLM leads SigLIP 2 by 9.8 to 13.9 points and YOLO-World by 4.8 to 7.1 points, and no interval of the difference contains zero (7.1 [5.0, 8.9] over YOLO-World, adversarial setting).
@@ -359,8 +321,6 @@ On the counts of 10 or more, the two models err in opposite directions: for 12.1
 ) <tab:results>
 
 = Discussion <sec:discussion>
-// [budget] 0.80 p (~700 words)
-// link each finding to the review themes; limits: dataset choice, one VLM, quantization, possible training-data overlap, no box scores for VLMs
 *Main findings.* In our setting, with small specialists and COCO images, neither model is more reliable on every task. The VLM is more accurate than SigLIP 2 for presence and, on average, than CountGD++ for counting, while YOLO-World has the better F1 for localization. The two types of model also fail in opposite ways. The VLM reports too much: it says "yes" more often as the questions become adversarial, it returns boxes for absent classes almost four times as often as YOLO-World, and it gives a non-zero count for 9.7% of the queries whose true count is zero, against 1.0% for CountGD++. The specialists mostly report too little: SigLIP 2 misses about a third of the present objects, YOLO-World finds only half of the true boxes, and CountGD++ counts too few objects for most small groups. In practice, these results point to the VLM for presence questions and small counts and to a detector when boxes are needed, with a check on absent classes in both cases.
 
 *Link to earlier work.* The drop of the VLM from the random to the adversarial setting, with a stable recall and a falling precision, is consistent with the finding of POPE that objects which co-occur with the present ones are hallucinated more @li2023pope, and with the bias towards "yes" that AMBER reports @wang2023amber. These results are probably favorable to the VLM, because POPE is a comparatively easy presence test. Qwen3-VL-8B reaches 88.8% on the balanced POPE questions, as quoted by PVFH-Bench, but 58.1% on its questions about an absent look-alike object with a false premise @wang2026pvfh, a different measure that points the same way. For localization, the specialist leads by 7 F1 points at IoU 0.5, in the same direction as Ramachandran et al. and Roboflow100-VL, which find specialists ahead of VLMs @ramachandran2026gpt4o @robicheaux2025rf100vl. For counting, the drop of the VLM with the true count agrees with CountQA and UNICBench @tamarapalli2025countqa @rong2026unicbench. Its 90.3% of exact answers on zero counts lies between the 96.4% and 87.2% that HoloCount reports for Qwen3-VL-8B and Gemma3-27B on absent objects @deng2026holocount.
@@ -375,7 +335,6 @@ The labels of POPE and COCO also contain errors @neuhaus2025repope @penquitt2026
 We did not run a control with a blank image, so a correct presence answer does not prove that the image was used @lan2026seeing. Finally, we measured neither calibration nor robustness to the prompt or the domain, which are two of the three properties of reliability defined in @sec:background.
 
 = Conclusion <sec:conclusion>
-// [budget] 0.35 p (~300 words)
 On common objects in COCO photographs, one recent VLM, Qwen3.8-27B, was more accurate than the specialists for object presence, including YOLO-World read as a presence detector, and, over all counting queries, for counting. YOLO-World was ahead for localization by 7 F1 points at IoU 0.5. We cannot conclude that the VLM could replace a specialist for presence: POPE is an easy test, our specialists are small models, and the images are probably in the pre-training data of the VLM. The counting lead also comes from small counts, where CountGD++, used without exemplars and outside the setting it was trained for, counts too few. Nor do the results show that the VLM is reliable in the broader sense that we defined, since we measured accuracy and behavior on absent objects but not calibration or robustness. The VLM also reports objects that are not there, is rarely exact for counts of four or more, and gives no confidence, whereas the specialists miss more objects and need tuned thresholds. The review shows that this comparison is rarely made: no study compares a VLM with a specialist for presence, and we found no independent evaluation of the recent Qwen and Gemma models for localization.
 
 Several steps would make these results firmer. We would test more VLMs and quantizations, such as Gemma 4. We would measure the effect of the prompt, add a control with a blank image, and use harder presence questions such as those of PVFH-Bench. We would count dense scenes on a set with complete annotations, and evaluate localization at a stricter IoU. We would also run out-of-domain images, for example from Roboflow100-VL and FSC-147. Finally, giving the VLM a confidence, for example from SigLIP 2 scores or from the token probabilities that Ollama can return, would let us measure the third property of reliability, calibration.
