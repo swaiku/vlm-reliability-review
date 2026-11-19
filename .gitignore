@@ -23,3 +23,6 @@ paper/main.pdf
 .DS_Store
 .vscode/
 main.pdf
+
+# Third-party code and weights (CountGD), fetched by experiments/README
+experiments/third_party/

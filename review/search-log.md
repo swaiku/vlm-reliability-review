@@ -71,3 +71,44 @@ One reader (the assistant) screened by title and abstract, then confirmed that e
 - Snowball from [4], [5] and [35]: references and papers that cite them since 2025.
 - Add at least one source on calibration of object detectors (none in the corpus).
 - Have the second author screen a sample of 20 records and compare decisions.
+
+## Update 2026-10-26: restructuring around three tasks
+
+The paper now compares VLMs with one specialist per task (presence, localization, counting). A second, smaller search served that structure. It did not replace the first one.
+
+Inputs and queries:
+
+| Date | Source | Query or lookup | Results | Kept |
+|---|---|---|---|---|
+| 2026-10-26 | Raul's slides (`review/review_question_prin_santos.pptx`) | the 10 arXiv links on counting, robustness and hallucination | 10 links | [45], [47], [48], [49] (also considered: UNICBench, HoloCount, Visual Enumeration; see below) |
+| 2026-10-26 | arXiv API | metadata of the slide sources and of candidate specialists | 12 of 12 found | titles, authors, years, venue comments |
+| 2026-10-26 | Web search | CountGD multi-modal open-world counting NeurIPS 2024 FSC-147 text-guided counting state of the art | ~10 | [41] |
+| 2026-10-26 | Web search | multimodal LLM counting versus specialist counting model comparison FSC-147 Qwen2.5-VL CountGD class-agnostic counting 2025 | ~10 | [42], [43] (also surfaced: "Count Anything at Any Granularity", not kept) |
+| 2026-10-26 | Web search | SigLIP 2 multilingual vision-language encoders zero-shot classification object presence CLIP versus MLLM evaluation | ~10 | [46] |
+| 2026-10-26 | arXiv API | abstracts of the candidates | 10 of 10 | [43], [44], [45] and the others above |
+| 2026-10-26 | arXiv API | metadata of all 39 retained sources | 39 of 39 found | refs.yml regenerated |
+
+Changes to the corpus (details in `sources.md`):
+- Added 9: [41] CountGD, [42] CountGD++, [43] LVLM-Count, [44] UNICBench, [45] counting survey, [46] SigLIP 2, [47] MERLIM, [48] VLM-RobustBench, [49] Seeing without Looking.
+- Removed 10: [5], [6], [16], [18], [25], [29], [30], [33], [34], [37]. Reasons: overlap, mitigation rather than measurement, superseded model, not serving the new structure.
+- Net: 39 sources. One slot remains under the 40-source cap.
+
+Selection rule for this update: keep a source if it serves one of the three tasks, the specialist of a task, or a reliability factor; drop duplicates and superseded work. Added sources came from Raul's slides and from three targeted queries, one per specialist or task gap. Same single-screener limits as above.
+
+Considered and not kept at this stage: HoloCount (technical report overlapping UNICBench; added later, see `sources.md`), Visual Enumeration Remains Challenging (simple stimuli, overlaps BlindTest), Florence-2 (unified model, not a per-task specialist), "Are VLMs ready for autonomous driving" (domain-specific), "Count Anything at Any Granularity" (counting dataset and method, tangential).
+
+Automated search attempt: a script querying arXiv, OpenAlex and Semantic Scholar was written and run as a pilot on 2026-10-23. It recovered only 16 of the 40 sources known at the time and ranked off-topic medical and remote-sensing work first. It was abandoned and deleted; the lesson is that keyword queries alone miss part of the field.
+
+
+## Update 2026-11-15: label quality and full-text checks
+
+Searches and readings run with an AI assistant (Claude Code with alphaXiv), after a simulated peer review of the draft.
+
+| Date | Source | Query or lookup | Results | Kept |
+|---|---|---|---|---|
+| 2026-11-15 | alphaXiv `discover_papers` | COCO missing annotations; POPE label noise; false positives that are unannotated objects; incomplete labels in object detection evaluation | 12 | `neuhaus2025repope` (RePOPE), `penquitt2026incomplete` (re-annotation of COCO, Pascal VOC, KITTI, Cityscapes). Also surfaced, not read: "From COCO to COCO-FP" (arXiv:2409.07907), "From Label Error Detection to Correction" (arXiv:2508.06556) |
+| 2026-11-15 | alphaXiv `answer_pdf_queries` | full-text reading of 21 cited papers (list in `sources.md`, update of the same date) | 21 PDFs | numbers checked, three corrections made in the paper |
+
+Not recorded here: the searches that added HoloCount, PVFH-Bench and the detector-robustness study of Chhipa et al. between 2026-11-09 and 2026-11-13 (two extended web searches, whose queries and counts were not logged; the three sources are listed in `sources.md`). The opening of the Review section in `paper/main.typ` still describes the search as done between October and November 2026, which stays correct.
+
+Known limits that remain: one assistant, one search tool, no recorded counts for the earlier searches, no second reader. The statements "we found no study" in the paper rest on this search and mean "among the studies we found".

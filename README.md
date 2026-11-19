@@ -1,14 +1,14 @@
 # vlm-reliability-review
 
-How reliable are Vision-Language Models (VLMs) for visual information extraction (classification, counting, localization) on real-world images and videos? A literature review and a small experiment comparing a Qwen VLM with YOLO-World and Grounding DINO on bounding-box localization.
+How reliable are Vision-Language Models (VLMs) for visual information extraction (object presence, localization, and counting) on real-world images, compared with specialized models? A literature review and an experiment comparing one VLM (Qwen3.8-27B) with SigLIP 2, YOLO-World, and CountGD++ on the COCO images of POPE.
 
 ## Structure
 
 | Folder | Content |
 |---|---|
 | `paper/` | Typst source of the paper (`main.typ`) and bibliography (`refs.yml`) |
-| `review/` | Literature review working files: search log, source table, notes per theme |
-| `experiments/` | Code, configs and results of the localization experiment |
+| `review/` | Literature review: search log, source table, and the slides of the research question |
+| `experiments/` | Code, configs and results of the experiment |
 
 ## Build the paper
 

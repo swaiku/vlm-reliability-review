@@ -1,8 +1,9 @@
-# Bibliography in Hayagriva format (40 sources).
-# Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23).
+# Bibliography in Hayagriva format (45 entries, 43 cited in the paper).
+# Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23 and 2026-10-26).
 # Venues come from the arXiv comment field or conference pages. Author names were
 # split into 'Last, First' by a heuristic: check names with particles when proofreading.
-# Claims attributed to each source are NOT verified against full texts: see review/sources.md.
+# Claims attributed to 23 sources were checked against their full text on 2026-11-15; the others
+# only against their abstract or project page: see the last section of review/sources.md.
 
 li2023pope:
   type: Article
@@ -82,62 +83,6 @@ bai2024survey:
     arxiv: "2404.18930"
   url: https://arxiv.org/abs/2404.18930
 
-liu2024survey:
-  type: Article
-  title: "A Survey on Hallucination in Large Vision-Language Models"
-  author:
-    - "Liu, Hanchao"
-    - "Xue, Wenyuan"
-    - "Chen, Yifei"
-    - "Chen, Dapeng"
-    - "Zhao, Xiutian"
-    - "Wang, Ke"
-    - "Hou, Liping"
-    - "Li, Rongjun"
-    - "Peng, Wei"
-  date: 2024
-  serial-number:
-    arxiv: "2402.00253"
-  url: https://arxiv.org/abs/2402.00253
-
-leng2024vcd:
-  type: Article
-  title: "Mitigating Object Hallucinations in Large Vision-Language Models through Visual Contrastive Decoding"
-  author:
-    - "Leng, Sicong"
-    - "Zhang, Hang"
-    - "Chen, Guanzheng"
-    - "Li, Xin"
-    - "Lu, Shijian"
-    - "Miao, Chunyan"
-    - "Bing, Lidong"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
-  serial-number:
-    arxiv: "2311.16922"
-  url: https://arxiv.org/abs/2311.16922
-
-paiss2023countbench:
-  type: Article
-  title: "Teaching CLIP to Count to Ten"
-  author:
-    - "Paiss, Roni"
-    - "Ephrat, Ariel"
-    - "Tov, Omer"
-    - "Zada, Shiran"
-    - "Mosseri, Inbar"
-    - "Irani, Michal"
-    - "Dekel, Tali"
-  date: 2023
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)"
-  serial-number:
-    arxiv: "2302.12066"
-  url: https://arxiv.org/abs/2302.12066
-
 tamarapalli2025countqa:
   type: Article
   title: "CountQA: How Well Do MLLMs Count in the Wild?"
@@ -160,94 +105,12 @@ fuzesseery2025counting:
     - "Szénási, Sándor"
     - "Vámossy, Zoltán"
   date: 2025
+  parent:
+    type: Proceedings
+    title: "International Symposium on Applied Machine Intelligence and Informatics (SAMI)"
   serial-number:
     arxiv: "2512.03233"
   url: https://arxiv.org/abs/2512.03233
-
-rahmanzadehgervi2024blind:
-  type: Article
-  title: "Vision language models are blind: Failing to translate detailed visual features into words"
-  author:
-    - "Rahmanzadehgervi, Pooyan"
-    - "Bolton, Logan"
-    - "Taesiri, Mohammad Reza"
-    - "Nguyen, Anh Totti"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the Asian Conference on Computer Vision (ACCV)"
-  serial-number:
-    arxiv: "2407.06581"
-  url: https://arxiv.org/abs/2407.06581
-
-tong2024mmvp:
-  type: Article
-  title: "Eyes Wide Shut? Exploring the Visual Shortcomings of Multimodal LLMs"
-  author:
-    - "Tong, Shengbang"
-    - "Liu, Zhuang"
-    - "Zhai, Yuexiang"
-    - "Ma, Yi"
-    - "LeCun, Yann"
-    - "Xie, Saining"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
-  serial-number:
-    arxiv: "2401.06209"
-  url: https://arxiv.org/abs/2401.06209
-
-fu2024blink:
-  type: Article
-  title: "BLINK: Multimodal Large Language Models Can See but Not Perceive"
-  author:
-    - "Fu, Xingyu"
-    - "Hu, Yushi"
-    - "Li, Bangzheng"
-    - "Feng, Yu"
-    - "Wang, Haoyu"
-    - "Lin, Xudong"
-    - "Roth, Dan"
-    - "Smith, Noah A."
-    - "Ma, Wei-Chiu"
-    - "Krishna, Ranjay"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the European Conference on Computer Vision (ECCV)"
-  serial-number:
-    arxiv: "2404.12390"
-  url: https://arxiv.org/abs/2404.12390
-
-kamath2023whatsup:
-  type: Article
-  title: "What's \"up\" with vision-language models? Investigating their struggle with spatial reasoning"
-  author:
-    - "Kamath, Amita"
-    - "Hessel, Jack"
-    - "Chang, Kai-Wei"
-  date: 2023
-  parent:
-    type: Proceedings
-    title: "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)"
-  serial-number:
-    arxiv: "2310.19785"
-  url: https://arxiv.org/abs/2310.19785
-
-wu2024vstar:
-  type: Article
-  title: "V*: Guided Visual Search as a Core Mechanism in Multimodal LLMs"
-  author:
-    - "Wu, Penghao"
-    - "Xie, Saining"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
-  serial-number:
-    arxiv: "2312.14135"
-  url: https://arxiv.org/abs/2312.14135
 
 zhang2024classification:
   type: Article
@@ -267,101 +130,6 @@ zhang2024classification:
   serial-number:
     arxiv: "2405.18415"
   url: https://arxiv.org/abs/2405.18415
-
-deitke2025molmo:
-  type: Article
-  title: "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models"
-  author:
-    - "Deitke, Matt"
-    - "Clark, Christopher"
-    - "Lee, Sangho"
-    - "Tripathi, Rohun"
-    - "Yang, Yue"
-    - "Park, Jae Sung"
-    - "Salehi, Mohammadreza"
-    - "Muennighoff, Niklas"
-    - "Lo, Kyle"
-    - "Soldaini, Luca"
-    - "Lu, Jiasen"
-    - "Anderson, Taira"
-    - "Bransom, Erin"
-    - "Ehsani, Kiana"
-    - "Ngo, Huong"
-    - "Chen, YenSung"
-    - "Patel, Ajay"
-    - "Yatskar, Mark"
-    - "Callison-Burch, Chris"
-    - "Head, Andrew"
-    - "Hendrix, Rose"
-    - "Bastani, Favyen"
-    - "VanderBilt, Eli"
-    - "Lambert, Nathan"
-    - "Chou, Yvonne"
-    - "Chheda, Arnavi"
-    - "Sparks, Jenna"
-    - "Skjonsberg, Sam"
-    - "Schmitz, Michael"
-    - "Sarnat, Aaron"
-    - "Bischoff, Byron"
-    - "Walsh, Pete"
-    - "Newell, Chris"
-    - "Wolters, Piper"
-    - "Gupta, Tanmay"
-    - "Zeng, Kuo-Hao"
-    - "Borchardt, Jon"
-    - "Groeneveld, Dirk"
-    - "Nam, Crystal"
-    - "Lebrecht, Sophie"
-    - "Wittlif, Caitlin"
-    - "Schoenick, Carissa"
-    - "Michel, Oscar"
-    - "Krishna, Ranjay"
-    - "Weihs, Luca"
-    - "Smith, Noah A."
-    - "Hajishirzi, Hannaneh"
-    - "Girshick, Ross"
-    - "Farhadi, Ali"
-    - "Kembhavi, Aniruddha"
-  date: 2025
-  parent:
-    type: Proceedings
-    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
-  serial-number:
-    arxiv: "2409.17146"
-  url: https://arxiv.org/abs/2409.17146
-
-sclar2024format:
-  type: Article
-  title: "Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How I learned to start worrying about prompt formatting"
-  author:
-    - "Sclar, Melanie"
-    - "Choi, Yejin"
-    - "Tsvetkov, Yulia"
-    - "Suhr, Alane"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "International Conference on Learning Representations (ICLR)"
-  serial-number:
-    arxiv: "2310.11324"
-  url: https://arxiv.org/abs/2310.11324
-
-zheng2024selection:
-  type: Article
-  title: "Large Language Models Are Not Robust Multiple Choice Selectors"
-  author:
-    - "Zheng, Chujie"
-    - "Zhou, Hao"
-    - "Meng, Fandong"
-    - "Zhou, Jie"
-    - "Huang, Minlie"
-  date: 2024
-  parent:
-    type: Proceedings
-    title: "International Conference on Learning Representations (ICLR)"
-  serial-number:
-    arxiv: "2309.03882"
-  url: https://arxiv.org/abs/2309.03882
 
 liu2024mmbench:
   type: Article
@@ -465,20 +233,6 @@ ding2025knowledge:
     arxiv: "2508.19111"
   url: https://arxiv.org/abs/2508.19111
 
-ye2025conformal:
-  type: Article
-  title: "Data-Driven Calibration of Prediction Sets in Large Vision-Language Models Based on Inductive Conformal Prediction"
-  author:
-    - "Ye, Yuanchang"
-    - "Wen, Weiyan"
-  date: 2025
-  parent:
-    type: Proceedings
-    title: "ICIPCA 2025"
-  serial-number:
-    arxiv: "2504.17671"
-  url: https://arxiv.org/abs/2504.17671
-
 liu2023groundingdino:
   type: Article
   title: "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection"
@@ -495,7 +249,10 @@ liu2023groundingdino:
     - "Su, Hang"
     - "Zhu, Jun"
     - "Zhang, Lei"
-  date: 2023
+  date: 2024
+  parent:
+    type: Proceedings
+    title: "Proceedings of the European Conference on Computer Vision (ECCV)"
   serial-number:
     arxiv: "2303.05499"
   url: https://arxiv.org/abs/2303.05499
@@ -532,58 +289,6 @@ minderer2023owlv2:
   serial-number:
     arxiv: "2306.09683"
   url: https://arxiv.org/abs/2306.09683
-
-peng2023kosmos2:
-  type: Article
-  title: "Kosmos-2: Grounding Multimodal Large Language Models to the World"
-  author:
-    - "Peng, Zhiliang"
-    - "Wang, Wenhui"
-    - "Dong, Li"
-    - "Hao, Yaru"
-    - "Huang, Shaohan"
-    - "Ma, Shuming"
-    - "Wei, Furu"
-  date: 2023
-  serial-number:
-    arxiv: "2306.14824"
-  url: https://arxiv.org/abs/2306.14824
-
-bai2025qwen25vl:
-  type: Article
-  title: "Qwen2.5-VL Technical Report"
-  author:
-    - "Bai, Shuai"
-    - "Chen, Keqin"
-    - "Liu, Xuejing"
-    - "Wang, Jialin"
-    - "Ge, Wenbin"
-    - "Song, Sibo"
-    - "Dang, Kai"
-    - "Wang, Peng"
-    - "Wang, Shijie"
-    - "Tang, Jun"
-    - "Zhong, Humen"
-    - "Zhu, Yuanzhi"
-    - "Yang, Mingkun"
-    - "Li, Zhaohai"
-    - "Wan, Jianqiang"
-    - "Wang, Pengfei"
-    - "Ding, Wei"
-    - "Fu, Zheren"
-    - "Xu, Yiheng"
-    - "Ye, Jiabo"
-    - "Zhang, Xi"
-    - "Xie, Tianbao"
-    - "Cheng, Zesen"
-    - "Zhang, Hang"
-    - "Yang, Zhibo"
-    - "Xu, Haiyang"
-    - "Lin, Junyang"
-  date: 2025
-  serial-number:
-    arxiv: "2502.13923"
-  url: https://arxiv.org/abs/2502.13923
 
 jiang2025rexomni:
   type: Article
@@ -622,37 +327,6 @@ robicheaux2025rf100vl:
     arxiv: "2505.20612"
   url: https://arxiv.org/abs/2505.20612
 
-sapkota2025review:
-  type: Article
-  title: "Object Detection with Multimodal Large Vision-Language Models: An In-depth Review"
-  author:
-    - "Sapkota, Ranjan"
-    - "Karkee, Manoj"
-  date: 2025
-  parent:
-    type: Periodical
-    title: "Information Fusion"
-  serial-number:
-    arxiv: "2508.19294"
-  url: https://arxiv.org/abs/2508.19294
-
-fu2025llmdet:
-  type: Article
-  title: "LLMDet: Learning Strong Open-Vocabulary Object Detectors under the Supervision of Large Language Models"
-  author:
-    - "Fu, Shenghao"
-    - "Yang, Qize"
-    - "Mo, Qijie"
-    - "Yan, Junkai"
-    - "Wei, Xihan"
-    - "Meng, Jingke"
-    - "Xie, Xiaohua"
-    - "Zheng, Wei-Shi"
-  date: 2025
-  serial-number:
-    arxiv: "2501.18954"
-  url: https://arxiv.org/abs/2501.18954
-
 ramachandran2026gpt4o:
   type: Article
   title: "How Well Does GPT-4o Understand Vision? Evaluating Multimodal Foundation Models on Standard Computer Vision Tasks"
@@ -690,21 +364,6 @@ wu2024dettoolchain:
   serial-number:
     arxiv: "2403.12488"
   url: https://arxiv.org/abs/2403.12488
-
-jiang2023clipcount:
-  type: Article
-  title: "CLIP-Count: Towards Text-Guided Zero-Shot Object Counting"
-  author:
-    - "Jiang, Ruixiang"
-    - "Liu, Lingbo"
-    - "Chen, Changwen"
-  date: 2023
-  parent:
-    type: Proceedings
-    title: "Proceedings of the ACM International Conference on Multimedia (ACM MM)"
-  serial-number:
-    arxiv: "2305.07304"
-  url: https://arxiv.org/abs/2305.07304
 
 qwen3vl2025:
   type: Article
@@ -757,12 +416,414 @@ schulter2023omnilabel:
     arxiv: "2304.11463"
   url: https://arxiv.org/abs/2304.11463
 
-qwen35card:
+amini2024countgd:
+  type: Article
+  title: "CountGD: Multi-Modal Open-World Counting"
+  author:
+    - "Amini-Naieni, Niki"
+    - "Han, Tengda"
+    - "Zisserman, Andrew"
+  date: 2024
+  parent:
+    type: Proceedings
+    title: "Advances in Neural Information Processing Systems (NeurIPS)"
+  serial-number:
+    arxiv: "2407.04619"
+  url: https://arxiv.org/abs/2407.04619
+
+amini2025countgdpp:
+  type: Article
+  title: "CountGD++: Generalized Prompting for Open-World Counting"
+  author:
+    - "Amini-Naieni, Niki"
+    - "Zisserman, Andrew"
+  date: 2026
+  parent:
+    type: Proceedings
+    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  serial-number:
+    arxiv: "2512.23351"
+  url: https://arxiv.org/abs/2512.23351
+
+qharabagh2024lvlmcount:
+  type: Article
+  title: "LVLM-COUNT: Enhancing the Counting Ability of Large Vision-Language Models"
+  author:
+    - "Qharabagh, Muhammad Fetrat"
+    - "Ghofrani, Mohammadreza"
+    - "Fountoulakis, Kimon"
+  date: 2024
+  parent:
+    type: Periodical
+    title: "Transactions on Machine Learning Research (TMLR)"
+  serial-number:
+    arxiv: "2412.00686"
+  url: https://arxiv.org/abs/2412.00686
+
+rong2026unicbench:
+  type: Article
+  title: "UNICBench: UNIfied Counting Benchmark for MLLM"
+  author:
+    - "Rong, Chenggang"
+    - "Han, Tao"
+    - "Zhao, Zhiyuan"
+    - "Fan, Yaowu"
+    - "Wan, Jia"
+    - "Guo, Song"
+    - "Yuan, Yuan"
+    - "Gao, Junyu"
+  date: 2026
+  parent:
+    type: Proceedings
+    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  serial-number:
+    arxiv: "2603.00595"
+  url: https://arxiv.org/abs/2603.00595
+
+tschannen2025siglip2:
+  type: Article
+  title: "SigLIP 2: Multilingual Vision-Language Encoders with Improved Semantic Understanding, Localization, and Dense Features"
+  author:
+    - "Tschannen, Michael"
+    - "Gritsenko, Alexey"
+    - "Wang, Xiao"
+    - "Naeem, Muhammad Ferjad"
+    - "Alabdulmohsin, Ibrahim"
+    - "Parthasarathy, Nikhil"
+    - "Evans, Talfan"
+    - "Beyer, Lucas"
+    - "Xia, Ye"
+    - "Mustafa, Basil"
+    - "Hénaff, Olivier"
+    - "Harmsen, Jeremiah"
+    - "Steiner, Andreas"
+    - "Zhai, Xiaohua"
+  date: 2025
+  serial-number:
+    arxiv: "2502.14786"
+  url: https://arxiv.org/abs/2502.14786
+
+villa2023merlim:
+  type: Article
+  title: "Behind the Magic, MERLIM: Multi-modal Evaluation Benchmark for Large Image-Language Models"
+  author:
+    - "Villa, Andrés"
+    - "Alcázar, Juan Carlos León"
+    - "Soto, Alvaro"
+    - "Ghanem, Bernard"
+  date: 2025
+  parent:
+    type: Proceedings
+    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)"
+  serial-number:
+    arxiv: "2312.02219"
+  url: https://arxiv.org/abs/2312.02219
+
+saxena2026robustbench:
+  type: Article
+  title: "VLM-RobustBench: A Comprehensive Benchmark for Robustness of Vision-Language Models"
+  author:
+    - "Saxena, Rohit"
+    - "Suglia, Alessandro"
+    - "Minervini, Pasquale"
+  date: 2026
+  serial-number:
+    arxiv: "2603.06148"
+  url: https://arxiv.org/abs/2603.06148
+
+lan2026seeing:
+  type: Article
+  title: "Seeing without Looking: Do Vision-Language Benchmarks Really Test Vision?"
+  author:
+    - "Lan, Zixuan"
+    - "Sun, Luzhe"
+    - "Walter, Matthew R."
+    - "Zhou, Jiawei"
+  date: 2026
+  parent:
+    type: Proceedings
+    title: "GRAIL-V: Grounded Retrieval and Agentic Intelligence for Vision-Language, CVPR 2026 Workshop"
+  serial-number:
+    arxiv: "2605.22903"
+  url: https://arxiv.org/abs/2605.22903
+
+liu2024survey:
+  type: Article
+  title: "A Survey on Hallucination in Large Vision-Language Models"
+  author:
+    - "Liu, Hanchao"
+    - "Xue, Wenyuan"
+    - "Chen, Yifei"
+    - "Chen, Dapeng"
+    - "Zhao, Xiutian"
+    - "Wang, Ke"
+    - "Hou, Liping"
+    - "Li, Rongjun"
+    - "Peng, Wei"
+  date: 2024
+  serial-number:
+    arxiv: "2402.00253"
+  url: https://arxiv.org/abs/2402.00253
+
+deitke2025molmo:
+  type: Article
+  title: "Molmo and PixMo: Open Weights and Open Data for State-of-the-Art Vision-Language Models"
+  author:
+    - "Deitke, Matt"
+    - "Clark, Christopher"
+    - "Lee, Sangho"
+    - "Tripathi, Rohun"
+    - "Yang, Yue"
+    - "Park, Jae Sung"
+    - "Salehi, Mohammadreza"
+    - "Muennighoff, Niklas"
+    - "Lo, Kyle"
+    - "Soldaini, Luca"
+    - "Lu, Jiasen"
+    - "Anderson, Taira"
+    - "Bransom, Erin"
+    - "Ehsani, Kiana"
+    - "Ngo, Huong"
+    - "Chen, YenSung"
+    - "Patel, Ajay"
+    - "Yatskar, Mark"
+    - "Callison-Burch, Chris"
+    - "Head, Andrew"
+    - "Hendrix, Rose"
+    - "Bastani, Favyen"
+    - "VanderBilt, Eli"
+    - "Lambert, Nathan"
+    - "Chou, Yvonne"
+    - "Chheda, Arnavi"
+    - "Sparks, Jenna"
+    - "Skjonsberg, Sam"
+    - "Schmitz, Michael"
+    - "Sarnat, Aaron"
+    - "Bischoff, Byron"
+    - "Walsh, Pete"
+    - "Newell, Chris"
+    - "Wolters, Piper"
+    - "Gupta, Tanmay"
+    - "Zeng, Kuo-Hao"
+    - "Borchardt, Jon"
+    - "Groeneveld, Dirk"
+    - "Nam, Crystal"
+    - "Lebrecht, Sophie"
+    - "Wittlif, Caitlin"
+    - "Schoenick, Carissa"
+    - "Michel, Oscar"
+    - "Krishna, Ranjay"
+    - "Weihs, Luca"
+    - "Smith, Noah A."
+    - "Hajishirzi, Hannaneh"
+    - "Girshick, Ross"
+    - "Farhadi, Ali"
+    - "Kembhavi, Aniruddha"
+  date: 2025
+  parent:
+    type: Proceedings
+    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  serial-number:
+    arxiv: "2409.17146"
+  url: https://arxiv.org/abs/2409.17146
+
+peng2023kosmos2:
+  type: Article
+  title: "Kosmos-2: Grounding Multimodal Large Language Models to the World"
+  author:
+    - "Peng, Zhiliang"
+    - "Wang, Wenhui"
+    - "Dong, Li"
+    - "Hao, Yaru"
+    - "Huang, Shaohan"
+    - "Ma, Shuming"
+    - "Wei, Furu"
+  date: 2024
+  parent:
+    type: Proceedings
+    title: "International Conference on Learning Representations (ICLR)"
+  serial-number:
+    arxiv: "2306.14824"
+  url: https://arxiv.org/abs/2306.14824
+
+bai2025qwen25vl:
+  type: Article
+  title: "Qwen2.5-VL Technical Report"
+  author:
+    - "Bai, Shuai"
+    - "Chen, Keqin"
+    - "Liu, Xuejing"
+    - "Wang, Jialin"
+    - "Ge, Wenbin"
+    - "Song, Sibo"
+    - "Dang, Kai"
+    - "Wang, Peng"
+    - "Wang, Shijie"
+    - "Tang, Jun"
+    - "Zhong, Humen"
+    - "Zhu, Yuanzhi"
+    - "Yang, Mingkun"
+    - "Li, Zhaohai"
+    - "Wan, Jianqiang"
+    - "Wang, Pengfei"
+    - "Ding, Wei"
+    - "Fu, Zheren"
+    - "Xu, Yiheng"
+    - "Ye, Jiabo"
+    - "Zhang, Xi"
+    - "Xie, Tianbao"
+    - "Cheng, Zesen"
+    - "Zhang, Hang"
+    - "Yang, Zhibo"
+    - "Xu, Haiyang"
+    - "Lin, Junyang"
+  date: 2025
+  serial-number:
+    arxiv: "2502.13923"
+  url: https://arxiv.org/abs/2502.13923
+
+sapkota2025review:
+  type: Article
+  title: "Object Detection with Multimodal Large Vision-Language Models: An In-depth Review"
+  author:
+    - "Sapkota, Ranjan"
+    - "Karkee, Manoj"
+  date: 2025
+  parent:
+    type: Periodical
+    title: "Information Fusion"
+  serial-number:
+    arxiv: "2508.19294"
+  url: https://arxiv.org/abs/2508.19294
+
+fu2025llmdet:
+  type: Article
+  title: "LLMDet: Learning Strong Open-Vocabulary Object Detectors under the Supervision of Large Language Models"
+  author:
+    - "Fu, Shenghao"
+    - "Yang, Qize"
+    - "Mo, Qijie"
+    - "Yan, Junkai"
+    - "Wei, Xihan"
+    - "Meng, Jingke"
+    - "Xie, Xiaohua"
+    - "Zheng, Wei-Shi"
+  date: 2025
+  parent:
+    type: Proceedings
+    title: "Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+  serial-number:
+    arxiv: "2501.18954"
+  url: https://arxiv.org/abs/2501.18954
+
+jiang2023clipcount:
+  type: Article
+  title: "CLIP-Count: Towards Text-Guided Zero-Shot Object Counting"
+  author:
+    - "Jiang, Ruixiang"
+    - "Liu, Lingbo"
+    - "Chen, Changwen"
+  date: 2023
+  parent:
+    type: Proceedings
+    title: "Proceedings of the ACM International Conference on Multimedia (ACM MM)"
+  serial-number:
+    arxiv: "2305.07304"
+  url: https://arxiv.org/abs/2305.07304
+
+qwen38card:
   type: Web
-  title: "Qwen3.5-9B (model card)"
+  title: "Qwen3.8-27B (model card)"
   author:
     - name: Qwen Team
-  date: 2026-02
+  date: 2026-08
   url:
-    value: https://huggingface.co/Qwen/Qwen3.5-9B
-    date: 2026-10-23
+    value: https://huggingface.co/Qwen/Qwen3.8-27B
+    date: 2026-11-11
+
+deng2026holocount:
+  type: Article
+  title: "HoloCount: A Holistic Visual Counting Benchmark for MLLMs"
+  author:
+    - "Deng, Jinhong"
+    - "Qiao, Limeng"
+    - "Wan, Guanglu"
+  date: 2026
+  serial-number:
+    arxiv: "2607.06420"
+  url: https://arxiv.org/abs/2607.06420
+
+wang2026pvfh:
+  type: Article
+  title: "PVFH-Bench: Benchmarking Premise-Induced Visual Fixation Hallucinations in Vision-Language Models"
+  author:
+    - "Wang, Xinhao"
+    - "Cui, Junbo"
+    - "Liu, Zhenghao"
+    - "Yao, Yuan"
+    - "Li, Xiaohua"
+    - "Gu, Yu"
+    - "Yu, Ge"
+  date: 2026
+  serial-number:
+    arxiv: "2610.14635"
+  url: https://arxiv.org/abs/2610.14635
+
+chhipa2024ovrobust:
+  type: Article
+  title: "Open-Vocabulary Object Detectors: Robustness Challenges under Distribution Shifts"
+  author:
+    - "Chhipa, Prakash Chandra"
+    - "De, Kanjar"
+    - "Chippa, Meenakshi Subhash"
+    - "Saini, Rajkumar"
+    - "Liwicki, Marcus"
+  date: 2024
+  serial-number:
+    arxiv: "2405.14874"
+  url: https://arxiv.org/abs/2405.14874
+
+lin2014coco:
+  type: Article
+  title: "Microsoft COCO: Common Objects in Context"
+  author:
+    - "Lin, Tsung-Yi"
+    - "Maire, Michael"
+    - "Belongie, Serge"
+    - "Hays, James"
+    - "Perona, Pietro"
+    - "Ramanan, Deva"
+    - "Dollár, Piotr"
+    - "Zitnick, C. Lawrence"
+  date: 2014
+  parent:
+    type: Proceedings
+    title: "European Conference on Computer Vision (ECCV)"
+
+
+neuhaus2025repope:
+  type: Article
+  title: "RePOPE: Impact of Annotation Errors on the POPE Benchmark"
+  author:
+    - "Neuhaus, Yannic"
+    - "Hein, Matthias"
+  date: 2025
+  serial-number:
+    arxiv: "2504.15707"
+  url: https://arxiv.org/abs/2504.15707
+
+penquitt2026incomplete:
+  type: Article
+  title: "Object Detection Benchmarks are Incomplete: The Role of Label Errors and Annotation Uncertainty"
+  author:
+    - "Penquitt, Sarina"
+    - "Klees, Jonathan"
+    - "van Betteray, Antonia"
+    - "Jashnieh, Parssa"
+    - "Stehr, Peter"
+    - "Rottmann, Matthias"
+    - "Schmarje, Lars"
+  date: 2026
+  serial-number:
+    arxiv: "2609.21822"
+  url: https://arxiv.org/abs/2609.21822

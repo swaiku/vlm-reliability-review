@@ -1,0 +1,16 @@
+# One VLM against one specialist per task. Fill in the data paths once the benchmarks are chosen.
+vlm:
+  model: qwen3.8:27b  # Ollama Q4 tag (18 GB), served by a native Ollama install
+  think: false        # same setting for every run
+  box_format: norm1000  # checked on ultralytics bus.jpg: qwen3.8 boxes match YOLO-World at IoU 0.77-0.98
+localization_specialist: yolo_world   # or grounding_dino
+iou_threshold: 0.5
+data:                 # JSONL files, see src/run.py for the row format
+  presence: data/presence.jsonl
+  localization: data/localization.jsonl
+  counting: data/counting.jsonl
+prompts:
+  presence: "Is there a {label} in the image? Answer yes or no."
+  localization: "Locate every {label} in the image. Answer with a JSON list of bounding boxes [x1, y1, x2, y2]. Answer [] if there is none."
+  counting: "How many {label} are in the image? Answer with a single number."
+output_dir: results
