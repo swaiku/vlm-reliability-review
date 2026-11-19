@@ -46,16 +46,10 @@ The paper now compares VLMs with one specialist per task (presence, localization
 
 | # | Source | Reason |
 |---|---|---|
-| 5 | Liu et al., hallucination survey (arXiv:2402.00253) | Overlaps with [4]. |
 | 6 | Leng et al., VCD (arXiv:2311.16922) | Mitigation, not measurement. |
-| 16 | Deitke et al., Molmo and PixMo (arXiv:2409.17146) | Model paper, not used in the experiment. |
 | 18 | Zheng et al., selection bias (arXiv:2309.03882) | Text-only; multiple-choice bias is not our setting. |
 | 25 | Ye and Wen, conformal prediction (arXiv:2504.17671) | Low-visibility venue; calibration is now one factor among several. |
-| 29 | Peng et al., Kosmos-2 (arXiv:2306.14824) | 2023 model, superseded. |
-| 30 | Bai et al., Qwen2.5-VL (arXiv:2502.13923) | Older generation than the models run ([38]). |
 | 33 | Sapkota and Karkee, review (arXiv:2508.19294) | Projection, not evidence. |
-| 34 | Fu et al., LLMDet (arXiv:2501.18954) | About detector training, not VLM reliability. |
-| 37 | Jiang et al., CLIP-Count (arXiv:2305.07304) | Replaced by CountGD [41] as the counting specialist. |
 | 11 | Tong et al., MMVP (arXiv:2401.06209) | Pair-scored multiple choice on CLIP-blind images; overlaps [10] and [12]. Removed 2026-11-04 after reading the full text. |
 | 13 | Kamath et al., What'sUp (arXiv:2310.19785) | Tests image-text matching models, not generative VLMs; spatial relations are outside the four tasks. Removed 2026-11-04. |
 | 14 | Wu and Xie, V* (arXiv:2312.14135) | High-resolution visual search method, outside the four tasks. Removed 2026-11-04. |
@@ -64,6 +58,8 @@ The paper now compares VLMs with one specialist per task (presence, localization
 | - | Rahmanzadehgervi et al., Vision language models are blind | Synthetic shapes, not photos. Removed 2026-11-13. |
 | - | Owusu et al., Object Counting Across Modalities | Secondary survey, two authors, no venue. Removed 2026-11-13. |
 | - | Sclar et al., prompt formatting sensitivity | Text-only LLMs, and the figure is not used. Removed 2026-11-13. |
+
+Cited again later, as Background context only (not as evidence, and not tabulated above): [5] Liu et al., hallucination survey; [16] Molmo; [29] Kosmos-2; [30] Qwen2.5-VL; [34] LLMDet; [37] CLIP-Count. They are among the 45 entries of `paper/refs.yml` and were read at the level of the abstract.
 
 Considered and not kept (HoloCount was later added, see the last section): Testolin et al., Visual Enumeration (arXiv:2402.03328, simple stimuli, overlaps [10]); Florence-2 (arXiv:2311.06242, unified model, not a per-task specialist); autonomous-driving reliability study (arXiv:2501.04003, domain-specific).
 

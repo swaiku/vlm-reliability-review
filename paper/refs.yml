@@ -1,8 +1,9 @@
-# Bibliography in Hayagriva format (43 sources).
+# Bibliography in Hayagriva format (45 entries, 43 cited in the paper).
 # Titles, authors, years and arXiv ids come from the arXiv API (checked 2026-10-23 and 2026-10-26).
 # Venues come from the arXiv comment field or conference pages. Author names were
 # split into 'Last, First' by a heuristic: check names with particles when proofreading.
-# Claims attributed to each source are NOT verified against full texts: see review/sources.md.
+# Claims attributed to 23 sources were checked against their full text on 2026-11-15; the others
+# only against their abstract or project page: see the last section of review/sources.md.
 
 li2023pope:
   type: Article
